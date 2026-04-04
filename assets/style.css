@@ -1,0 +1,106 @@
+/* ── Scroll behaviour ────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Sticky nav — becomes opaque on scroll ───────────────────── */
+#site-header.scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 0 rgb(226 232 240 / 0.8);
+}
+
+/* ── Fade-in animation (hero) ────────────────────────────────── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.6s ease forwards;
+}
+.fade-delay-1 { animation-delay: 0.15s; }
+.fade-delay-2 { animation-delay: 0.30s; }
+.fade-delay-3 { animation-delay: 0.45s; }
+.fade-delay-4 { animation-delay: 0.60s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Scroll-reveal (sections) ────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scroll cue line ─────────────────────────────────────────── */
+.scroll-cue-line {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* ── Skill pills ─────────────────────────────────────────────── */
+.skill-pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: #e0e7ff;          /* indigo-100 */
+  color: #4338ca;               /* indigo-700 */
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5;
+  transition: background 0.2s, color 0.2s;
+}
+.skill-pill:hover {
+  background: #4f46e5;          /* indigo-600 */
+  color: #ffffff;
+}
+
+/* ── Tag pills (project cards) ───────────────────────────────── */
+.tag-pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background: #f1f5f9;          /* slate-100 */
+  color: #64748b;               /* slate-500 */
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* ── Project cards ───────────────────────────────────────────── */
+.project-card {
+  border: 1px solid #e2e8f0;   /* slate-200 */
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.project-card:hover {
+  border-color: #a5b4fc;        /* indigo-300 */
+  box-shadow: 0 4px 24px -4px rgb(99 102 241 / 0.12);
+  transform: translateY(-2px);
+}
+.project-card-inner {
+  padding: 1.5rem;
+}
+
+/* ── Active nav link ─────────────────────────────────────────── */
+.nav-link.active {
+  color: #4f46e5;               /* indigo-600 */
+}
+
+/* ── Focus ring ──────────────────────────────────────────────── */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
