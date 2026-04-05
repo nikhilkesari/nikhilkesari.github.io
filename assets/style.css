@@ -3,12 +3,17 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ── Sticky nav — becomes opaque on scroll ───────────────────── */
-#site-header.scrolled {
-  background: rgba(255, 255, 255, 0.92);
+/* ── Sticky nav — always semi-transparent cream, more opaque on scroll ── */
+#site-header {
+  background: rgba(255, 255, 227, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 1px 0 0 rgb(226 232 240 / 0.8);
+}
+#site-header.scrolled {
+  background: rgba(255, 255, 227, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 0 rgb(255 225 155 / 0.5);
 }
 
 /* ── Fade-in animation (hero) ────────────────────────────────── */
@@ -53,15 +58,15 @@ html {
   display: inline-block;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  background: #e0e7ff;          /* indigo-100 */
-  color: #4338ca;               /* indigo-700 */
+  background: #BDEDFF;          /* brand sky-blue */
+  color: #334155;               /* slate-700 — dark text for readability */
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.5;
   transition: background 0.2s, color 0.2s;
 }
 .skill-pill:hover {
-  background: #4f46e5;          /* indigo-600 */
+  background: #FFA763;          /* brand orange */
   color: #ffffff;
 }
 
@@ -70,22 +75,22 @@ html {
   display: inline-block;
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
-  background: #f1f5f9;          /* slate-100 */
-  color: #64748b;               /* slate-500 */
+  background: #D6FAFF;          /* brand light-blue */
+  color: #334155;               /* slate-700 — dark text for readability */
   font-size: 0.7rem;
   font-weight: 500;
 }
 
 /* ── Project cards ───────────────────────────────────────────── */
 .project-card {
-  border: 1px solid #e2e8f0;   /* slate-200 */
+  border: 1px solid #FFE19C;   /* brand yellow */
   border-radius: 12px;
   overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 .project-card:hover {
-  border-color: #a5b4fc;        /* indigo-300 */
-  box-shadow: 0 4px 24px -4px rgb(99 102 241 / 0.12);
+  border-color: #FFA763;        /* brand orange */
+  box-shadow: 0 4px 24px -4px rgb(255 167 99 / 0.25);
   transform: translateY(-2px);
 }
 .project-card-inner {
@@ -94,13 +99,13 @@ html {
 
 /* ── Active nav link ─────────────────────────────────────────── */
 .nav-link.active {
-  color: #4f46e5;               /* indigo-600 */
+  color: #FFA763;               /* brand orange */
 }
 
 /* ── Focus ring ──────────────────────────────────────────────── */
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid #FFA763;
   outline-offset: 3px;
   border-radius: 4px;
 }
