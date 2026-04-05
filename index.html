@@ -12,11 +12,15 @@
         extend: {
           colors: {
             brand: {
-              50:  '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
+              orange:     '#FFA763',
+              yellow:     '#FFE19C',
+              cream:      '#FFFFE3',
+              'sky-blue':   '#BDEDFF',
+              'light-blue': '#D6FAFF',
+              400: '#FFD494',
+              500: '#FFA763',
+              600: '#FFA763',
+              700: '#e8934a',
             }
           },
           fontFamily: {
@@ -28,37 +32,37 @@
   </script>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-[#FFFFE3] text-slate-800 antialiased">
 
   <!-- ── Navigation ───────────────────────────────────────────── -->
   <header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
     <nav class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#hero" class="text-sm font-semibold tracking-widest uppercase text-indigo-600 hover:text-indigo-700 transition-colors">
+      <a href="#hero" class="text-sm font-semibold tracking-widest uppercase text-[#FFA763] hover:text-[#e8934a] transition-colors">
         NSK
       </a>
 
       <!-- Desktop nav -->
       <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-        <li><a href="#about"   class="nav-link hover:text-indigo-600 transition-colors">About</a></li>
-        <li><a href="#skills"  class="nav-link hover:text-indigo-600 transition-colors">Skills</a></li>
-        <li><a href="#projects" class="nav-link hover:text-indigo-600 transition-colors">Projects</a></li>
-        <li><a href="#contact" class="nav-link hover:text-indigo-600 transition-colors">Contact</a></li>
+        <li><a href="#about"   class="nav-link hover:text-[#FFA763] transition-colors">About</a></li>
+        <li><a href="#skills"  class="nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
+        <li><a href="#projects" class="nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
+        <li><a href="#contact" class="nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
       </ul>
 
       <!-- Mobile hamburger -->
-      <button id="menu-btn" aria-label="Toggle menu" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+      <button id="menu-btn" aria-label="Toggle menu" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-[#FFA763] hover:bg-[#FFE19C]/40 transition-colors">
         <svg id="icon-open"  class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </nav>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-sm">
+    <div id="mobile-menu" class="hidden md:hidden bg-[#FFFFE3] border-t border-[#FFE19C] shadow-sm">
       <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium text-slate-600">
-        <li><a href="#about"    class="mobile-nav-link hover:text-indigo-600 transition-colors">About</a></li>
-        <li><a href="#skills"   class="mobile-nav-link hover:text-indigo-600 transition-colors">Skills</a></li>
-        <li><a href="#projects" class="mobile-nav-link hover:text-indigo-600 transition-colors">Projects</a></li>
-        <li><a href="#contact"  class="mobile-nav-link hover:text-indigo-600 transition-colors">Contact</a></li>
+        <li><a href="#about"    class="mobile-nav-link hover:text-[#FFA763] transition-colors">About</a></li>
+        <li><a href="#skills"   class="mobile-nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
+        <li><a href="#projects" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
+        <li><a href="#contact"  class="mobile-nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -66,38 +70,41 @@
   <main>
 
     <!-- ── Hero ─────────────────────────────────────────────────── -->
-    <section id="hero" class="min-h-screen flex items-center pt-20">
-      <div class="max-w-5xl mx-auto px-6 py-24">
-        <p class="text-indigo-600 font-medium tracking-widest uppercase text-sm mb-4 fade-in">Hello, I'm</p>
-        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 leading-tight tracking-tight mb-6 fade-in fade-delay-1">
+    <section id="hero" class="min-h-screen flex items-center pt-20 relative overflow-hidden"
+             style="background-image: url('https://github.com/user-attachments/assets/2561486e-bd5e-47c9-9eeb-2d67053005a4'); background-size: cover; background-position: center;">
+      <!-- Dark overlay -->
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="max-w-5xl mx-auto px-6 py-24 relative z-10">
+        <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-4 fade-in">Hello, I'm</p>
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-6 fade-in fade-delay-1">
           Nikhil S<br class="hidden sm:block" /> Kesari
         </h1>
-        <p class="text-xl sm:text-2xl text-slate-500 font-light mb-4 fade-in fade-delay-2">Engineering Manager</p>
-        <p class="text-lg text-slate-600 max-w-xl leading-relaxed mb-10 fade-in fade-delay-3">
+        <p class="text-xl sm:text-2xl text-[#FFE19C] font-light mb-4 fade-in fade-delay-2">Engineering Manager</p>
+        <p class="text-lg text-white/80 max-w-xl leading-relaxed mb-10 fade-in fade-delay-3">
           I lead engineering teams that ship at scale.<br class="hidden sm:block" />
           We build web applications.
         </p>
 
         <div class="flex flex-wrap gap-3 fade-in fade-delay-4">
           <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-700 transition-colors">
+             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/10 border border-white/30 text-white text-sm font-medium hover:bg-white/20 transition-colors">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
             GitHub
           </a>
           <a href="https://linkedin.com/in/nikhilkesari" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors">
+             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#FFA763] text-white text-sm font-medium hover:bg-[#e8934a] transition-colors">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
           </a>
           <a href="mailto:hello@nikhilkesari.com"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">
+             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/40 text-white text-sm font-medium hover:border-[#FFA763] hover:text-[#FFA763] transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             Email
           </a>
         </div>
 
         <!-- Scroll cue -->
-        <div class="mt-20 hidden sm:flex items-center gap-2 text-slate-400 text-xs tracking-widest uppercase fade-in fade-delay-4">
+        <div class="mt-20 hidden sm:flex items-center gap-2 text-white/40 text-xs tracking-widest uppercase fade-in fade-delay-4">
           <span class="scroll-cue-line"></span>
           Scroll
         </div>
@@ -109,7 +116,7 @@
       <div class="max-w-5xl mx-auto px-6">
         <div class="reveal grid md:grid-cols-2 gap-16 items-start">
           <div>
-            <p class="text-indigo-600 font-medium tracking-widest uppercase text-sm mb-3">About</p>
+            <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">About</p>
             <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 leading-snug">
               Building teams.<br />Shipping products.
             </h2>
@@ -134,10 +141,10 @@
     </section>
 
     <!-- ── Skills ────────────────────────────────────────────────── -->
-    <section id="skills" class="py-24 bg-slate-50">
+    <section id="skills" class="py-24 bg-[#D6FAFF]">
       <div class="max-w-5xl mx-auto px-6">
         <div class="reveal mb-12">
-          <p class="text-indigo-600 font-medium tracking-widest uppercase text-sm mb-3">Skills</p>
+          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Skills</p>
           <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">What I work with</h2>
         </div>
 
@@ -185,7 +192,7 @@
     <section id="projects" class="py-24 bg-white">
       <div class="max-w-5xl mx-auto px-6">
         <div class="reveal mb-12">
-          <p class="text-indigo-600 font-medium tracking-widest uppercase text-sm mb-3">Projects</p>
+          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Projects</p>
           <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">Things I've built</h2>
         </div>
 
@@ -193,7 +200,7 @@
 
           <article class="project-card group">
             <div class="project-card-inner">
-              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">
+              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-[#FFA763] transition-colors">
                 Scale Platform
               </h3>
               <p class="text-sm text-slate-500 leading-relaxed mb-4">
@@ -206,7 +213,7 @@
                 <span class="tag-pill">Docker</span>
               </div>
               <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+                 class="inline-flex items-center gap-1.5 text-xs font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors">
                 View on GitHub
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
               </a>
@@ -215,7 +222,7 @@
 
           <article class="project-card group">
             <div class="project-card-inner">
-              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">
+              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-[#FFA763] transition-colors">
                 Team Radar
               </h3>
               <p class="text-sm text-slate-500 leading-relaxed mb-4">
@@ -228,7 +235,7 @@
                 <span class="tag-pill">REST API</span>
               </div>
               <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+                 class="inline-flex items-center gap-1.5 text-xs font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors">
                 View on GitHub
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
               </a>
@@ -237,7 +244,7 @@
 
           <article class="project-card group">
             <div class="project-card-inner">
-              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">
+              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-[#FFA763] transition-colors">
                 This Site
               </h3>
               <p class="text-sm text-slate-500 leading-relaxed mb-4">
@@ -250,7 +257,7 @@
                 <span class="tag-pill">JavaScript</span>
               </div>
               <a href="https://github.com/nikhilkesari/nikhilkesari.github.io" target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+                 class="inline-flex items-center gap-1.5 text-xs font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors">
                 View source
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
               </a>
@@ -262,10 +269,10 @@
     </section>
 
     <!-- ── Contact ───────────────────────────────────────────────── -->
-    <section id="contact" class="py-24 bg-slate-50">
+    <section id="contact" class="py-24 bg-[#D6FAFF]">
       <div class="max-w-5xl mx-auto px-6">
         <div class="reveal max-w-xl">
-          <p class="text-indigo-600 font-medium tracking-widest uppercase text-sm mb-3">Contact</p>
+          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Contact</p>
           <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Let's connect</h2>
           <p class="text-slate-600 leading-relaxed mb-10">
             Whether you want to chat about engineering leadership, a project, or just say hello —
@@ -274,17 +281,17 @@
 
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="mailto:hello@nikhilkesari.com"
-               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors">
+               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#FFA763] text-white text-sm font-medium hover:bg-[#e8934a] transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               Send me an email
             </a>
             <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">
+               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:border-[#FFA763] hover:text-[#FFA763] transition-colors">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
               GitHub
             </a>
             <a href="https://linkedin.com/in/nikhilkesari" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">
+               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:border-[#FFA763] hover:text-[#FFA763] transition-colors">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               LinkedIn
             </a>
@@ -296,7 +303,7 @@
   </main>
 
   <!-- ── Footer ────────────────────────────────────────────────── -->
-  <footer class="py-8 bg-white border-t border-slate-100">
+  <footer class="py-8 bg-[#FFFFE3] border-t border-[#FFE19C]">
     <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
       <span>© <span id="year"></span> Nikhil S Kesari</span>
       <span>Built with Tailwind CSS · Hosted on GitHub Pages</span>
