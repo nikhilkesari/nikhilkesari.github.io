@@ -110,6 +110,18 @@ button:focus-visible {
   border-radius: 4px;
 }
 
+/* ── Inline code ─────────────────────────────────────────────── */
+.inline-code {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.35rem;
+  background: #f1f5f9; /* slate-100 */
+  color: #334155;      /* slate-700 */
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 /* ── Resource tab buttons ────────────────────────────────────── */
 .res-tab-active {
   background: #FFA763;
