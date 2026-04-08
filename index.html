@@ -46,6 +46,7 @@
         <li><a href="#about"   class="nav-link hover:text-[#FFA763] transition-colors">About</a></li>
         <li><a href="#skills"  class="nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
         <li><a href="#projects" class="nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
+        <li><a href="#learning" class="nav-link hover:text-[#FFA763] transition-colors">Learning</a></li>
         <li><a href="#resources" class="nav-link hover:text-[#FFA763] transition-colors">Resources</a></li>
         <li><a href="#contact" class="nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
       </ul>
@@ -63,6 +64,7 @@
         <li><a href="#about"    class="mobile-nav-link hover:text-[#FFA763] transition-colors">About</a></li>
         <li><a href="#skills"   class="mobile-nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
         <li><a href="#projects" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
+        <li><a href="#learning" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Learning</a></li>
         <li><a href="#resources" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Resources</a></li>
         <li><a href="#contact"  class="mobile-nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
       </ul>
@@ -266,6 +268,111 @@
             </div>
           </article>
 
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Learning ─────────────────────────────────────────────── -->
+    <section id="learning" class="py-24 bg-[#D6FAFF]">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="reveal mb-12">
+          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Learning</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">What I'm learning now</h2>
+          <p class="text-slate-600 text-sm">A focused deep-dive on mutation testing with Stryker for TypeScript teams.</p>
+        </div>
+
+        <div class="reveal grid lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-1">
+            <div class="h-full border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
+              <h3 class="text-lg font-semibold text-slate-900 mb-3">Stryker Mutation Testing</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Stryker Mutator is the gold standard for <strong>Mutation Testing</strong> across JavaScript/TypeScript,
+                .NET, and Scala. It doesn’t test your code — it <strong>tests your tests</strong> by injecting tiny bugs
+                ("mutants") into the source.
+              </p>
+              <div class="mt-5 space-y-3">
+                <p class="text-xs font-semibold tracking-widest uppercase text-slate-400">At-a-glance</p>
+                <ul class="text-sm text-slate-600 list-disc list-inside space-y-2">
+                  <li><strong>Mutation Score:</strong> Percentage of mutants that are killed — the real metric of test effectiveness.</li>
+                  <li>
+                    <strong>Workflow:</strong> Mutate &rarr; Test &rarr; Analyze. If tests fail, the mutant is <strong>Killed</strong>;
+                    if tests pass, it <strong>Survived</strong>.
+                  </li>
+                </ul>
+              </div>
+              <a href="https://stryker-mutator.io" target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center gap-1.5 text-sm font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors mt-5">
+                Explore Stryker
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-2 space-y-6">
+            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
+              <h3 class="text-base font-semibold text-slate-900 mb-3">Core details for a professional setup</h3>
+              <div class="space-y-4 text-sm text-slate-600">
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">1. TypeScript-specific intelligence</h4>
+                  <ul class="list-disc list-inside space-y-1">
+                    <li><strong>AST-based mutations:</strong> Uses the TypeScript AST and skips interfaces or type definitions.</li>
+                    <li><strong>In-memory type checking:</strong> Mutants that don’t compile are marked <strong>CompileError</strong> and ignored.</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">2. Performance optimization</h4>
+                  <ul class="list-disc list-inside space-y-1">
+                    <li>
+                      <strong>Coverage analysis:</strong>
+                      <code class="px-1 py-0.5 rounded bg-slate-100 text-slate-700 text-xs">coverageAnalysis: 'perTest'</code>
+                      runs only the tests that touch a mutant.
+                    </li>
+                    <li><strong>Parallelism:</strong> Worker model runs test runners across CPU cores.</li>
+                    <li><strong>Incremental mode:</strong> Mutate only files changed in the current PR.</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">3. Integration &amp; reporting</h4>
+                  <ul class="list-disc list-inside space-y-1">
+                    <li><strong>Runners:</strong> Jest, Vitest, Mocha, Jasmine, and Karma.</li>
+                    <li><strong>Reporters:</strong> HTML reports that show surviving mutants line-by-line.</li>
+                    <li><strong>Dashboard:</strong> Host reports and surface a Mutation Score badge.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
+              <h3 class="text-base font-semibold text-slate-900 mb-3">Why use Stryker?</h3>
+              <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">1. Coverage isn’t enough</h4>
+                  <p>100% line coverage can still mean zero assertions. Stryker proves what’s actually verified.</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">2. Catch leaky edge cases</h4>
+                  <p>Boundary mutations (like <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">&gt;</code> to <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">&lt;</code>) expose real-world bugs early.</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">3. Safer refactoring</h4>
+                  <p>A high mutation score gives proof that critical logic changes will be caught by tests.</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">4. Gamify quality</h4>
+                  <p>Hunting surviving mutants is motivating and improves the culture of thoughtful testing.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
+              <h3 class="text-base font-semibold text-slate-900 mb-3">Professional implementation note</h3>
+              <ol class="list-decimal list-inside text-sm text-slate-600 space-y-2">
+                <li><strong>Set a baseline:</strong> First run to see your starting score (often 40–60%).</li>
+                <li><strong>Target critical paths:</strong> Use <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">mutate</code> to focus on business-critical modules.</li>
+                <li><strong>Enforce in CI:</strong> Configure <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">thresholds.break</code> in <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">stryker.config.json</code>.</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </div>
     </section>
