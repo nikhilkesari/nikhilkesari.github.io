@@ -46,6 +46,7 @@
         <li><a href="#about"   class="nav-link hover:text-[#FFA763] transition-colors">About</a></li>
         <li><a href="#skills"  class="nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
         <li><a href="#projects" class="nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
+        <li><a href="#resources" class="nav-link hover:text-[#FFA763] transition-colors">Resources</a></li>
         <li><a href="#contact" class="nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
       </ul>
 
@@ -62,6 +63,7 @@
         <li><a href="#about"    class="mobile-nav-link hover:text-[#FFA763] transition-colors">About</a></li>
         <li><a href="#skills"   class="mobile-nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
         <li><a href="#projects" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
+        <li><a href="#resources" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Resources</a></li>
         <li><a href="#contact"  class="mobile-nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
       </ul>
     </div>
@@ -265,6 +267,271 @@
           </article>
 
         </div>
+      </div>
+    </section>
+
+
+    <!-- ── Resources ────────────────────────────────────────────── -->
+    <section id="resources" class="py-24 bg-[#FFFFE3]">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="reveal mb-10">
+          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Resources</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Curated reading &amp; learning</h2>
+          <p class="text-slate-500 text-sm">Hand-picked links across the topics I work with daily — kept live and up to date.</p>
+        </div>
+
+        <!-- Tab buttons -->
+        <div class="reveal mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Resource categories">
+          <button data-tab="software" role="tab" aria-selected="true"  aria-controls="tab-software" class="res-tab res-tab-active  px-4 py-2 rounded-full text-sm font-medium transition-colors">Software</button>
+          <button data-tab="ai"       role="tab" aria-selected="false" aria-controls="tab-ai"       class="res-tab res-tab-inactive px-4 py-2 rounded-full text-sm font-medium transition-colors">AI &amp; LLMs</button>
+          <button data-tab="js"       role="tab" aria-selected="false" aria-controls="tab-js"       class="res-tab res-tab-inactive px-4 py-2 rounded-full text-sm font-medium transition-colors">JavaScript</button>
+          <button data-tab="java"     role="tab" aria-selected="false" aria-controls="tab-java"     class="res-tab res-tab-inactive px-4 py-2 rounded-full text-sm font-medium transition-colors">Java</button>
+        </div>
+
+        <!-- Software tab -->
+        <div id="tab-software" role="tabpanel" class="res-panel reveal">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <a href="https://roadmap.sh" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Roadmaps</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">roadmap.sh</h3>
+                <p class="res-card-desc">Community-curated, continuously updated developer roadmaps for every role — frontend, backend, DevOps, AI engineering, and more.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://www.infoq.com" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">News</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">InfoQ</h3>
+                <p class="res-card-desc">In-depth articles, interviews, and conference talks on software architecture, engineering culture, and emerging trends.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://martinfowler.com" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Blog</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Martin Fowler</h3>
+                <p class="res-card-desc">Authoritative essays on software design, agile methods, refactoring, microservices, and enterprise architecture patterns.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://newsletter.pragmaticengineer.com" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Newsletter</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">The Pragmatic Engineer</h3>
+                <p class="res-card-desc">Gergely Orosz's weekly deep-dives on engineering culture, big-tech internals, and the craft of senior engineering.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">GitHub</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">System Design Primer</h3>
+                <p class="res-card-desc">One of the most starred GitHub repos — comprehensive, visual guide to designing scalable distributed systems.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://www.index.dev/blog/20-best-software-engineering-blogs" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Curated</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Top Engineering Blogs</h3>
+                <p class="res-card-desc">Curated list of the 20 best software engineering blogs — Google, Netflix, Stripe, Cloudflare, and more.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- AI tab -->
+        <div id="tab-ai" role="tabpanel" class="res-panel reveal hidden">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <a href="https://platform.openai.com/docs" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Docs</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">OpenAI Platform Docs</h3>
+                <p class="res-card-desc">Official API reference and guides for GPT-4o, o3, and the Assistants &amp; Agents SDK — from completions to function calling.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://docs.anthropic.com" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Docs</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Anthropic (Claude) Docs</h3>
+                <p class="res-card-desc">Full reference for the Claude model family, Model Context Protocol (MCP), tool use, and responsible AI guidelines.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Platform</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Hugging Face</h3>
+                <p class="res-card-desc">The home of open-source AI — thousands of models, datasets, and Spaces for running demos. Essential for ML practitioners.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/Shubhamsaboo/awesome-llm-apps" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">GitHub</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Awesome LLM Apps</h3>
+                <p class="res-card-desc">Curated collection of production-ready LLM app patterns — RAG, voice agents, multi-agent systems, and more using OpenAI, Claude &amp; Gemini.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://paperswithcode.com" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Research</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Papers With Code</h3>
+                <p class="res-card-desc">Latest ML research papers linked directly to their open-source implementations. Track state-of-the-art benchmarks in real time.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://devblogs.microsoft.com/java/the-state-of-coding-the-future-with-java-and-ai/" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Report</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Java &amp; AI State 2025</h3>
+                <p class="res-card-desc">Microsoft's in-depth survey on how Java developers are adopting AI — Spring AI, LangChain4j, RAG, and MCP in enterprise settings.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- JavaScript tab -->
+        <div id="tab-js" role="tabpanel" class="res-panel reveal hidden">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Reference</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">MDN JavaScript</h3>
+                <p class="res-card-desc">The gold standard for JavaScript fundamentals, ES2025 features, Web APIs, and browser compatibility. Always accurate and up to date.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://javascript.info" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Tutorial</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">The Modern JavaScript Tutorial</h3>
+                <p class="res-card-desc">Comprehensive, free, and beautifully written guide covering the core language, browser APIs, and advanced patterns with interactive tasks.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://react.dev" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Docs</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">React Official Docs</h3>
+                <p class="res-card-desc">The new react.dev docs — interactive examples, the Thinking in React mental model, and full coverage of hooks and server components.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Docs</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Next.js Docs</h3>
+                <p class="res-card-desc">Complete reference for Next.js App Router, server &amp; client components, data fetching patterns, ISR, and deployment — updated for v15.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://nodejs.org/en/docs" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Docs</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Node.js Documentation</h3>
+                <p class="res-card-desc">Official Node.js API reference plus the guides section covering streams, events, modules, and building performant server-side JavaScript.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/ryanmcdermott/clean-code-javascript" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">GitHub</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Clean Code JavaScript</h3>
+                <p class="res-card-desc">Robert C. Martin's clean code principles adapted for JavaScript — practical, opinionated, and widely referenced by engineering teams.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Java tab -->
+        <div id="tab-java" role="tabpanel" class="res-panel reveal hidden">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <a href="https://docs.spring.io/spring-boot/documentation.html" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Docs</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Spring Boot Documentation</h3>
+                <p class="res-card-desc">The authoritative Spring Boot reference — configuration, auto-configuration, production readiness, and the full feature set for each release.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://www.baeldung.com/spring-boot" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Tutorial</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Baeldung Spring Boot</h3>
+                <p class="res-card-desc">The largest collection of Spring Boot tutorials on the web — from basics to advanced testing, security, persistence, and microservices.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://spring.io/guides" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Guides</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Spring Guides</h3>
+                <p class="res-card-desc">Quick, focused 30-minute guides by the Spring team covering REST services, security, data, messaging, cloud, and more.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://docs.oracle.com/en/java/" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Reference</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Oracle Java Docs</h3>
+                <p class="res-card-desc">Official Java SE documentation — language specification, JDK API reference, and release notes for the latest LTS and current releases.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/spring-projects/spring-boot" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">GitHub</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">Spring Boot Source</h3>
+                <p class="res-card-desc">The official Spring Boot repository — follow release notes, open issues, and contribute. A great way to learn by reading production-grade Java.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+            <a href="https://www.geeksforgeeks.org/advance-java/spring-boot/" target="_blank" rel="noopener noreferrer" class="res-card group">
+              <div class="res-card-inner">
+                <span class="res-badge">Tutorial</span>
+                <h3 class="res-card-title group-hover:text-[#FFA763]">GeeksforGeeks Spring Boot</h3>
+                <p class="res-card-desc">Practical, beginner-friendly Spring Boot tutorials covering REST APIs, database integration, and the core Spring development lifecycle.</p>
+                <span class="res-link">Visit &rarr;</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
       </div>
     </section>
 

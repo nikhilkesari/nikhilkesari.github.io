@@ -46,6 +46,36 @@ const revealObserver = new IntersectionObserver(
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+/* ── Resources tab switcher ──────────────────────────────────── */
+const resTabs   = document.querySelectorAll('.res-tab');
+const resPanels = document.querySelectorAll('.res-panel');
+
+resTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+
+    // Update tab styles and ARIA
+    resTabs.forEach(t => {
+      const active = t.dataset.tab === target;
+      t.classList.toggle('res-tab-active',   active);
+      t.classList.toggle('res-tab-inactive', !active);
+      t.setAttribute('aria-selected', String(active));
+    });
+
+    // Show/hide panels; re-trigger reveal animation for newly shown panel
+    resPanels.forEach(panel => {
+      if (panel.id === `tab-${target}`) {
+        panel.classList.remove('hidden');
+        // Allow re-animation by toggling visible off then on next frame
+        panel.classList.remove('visible');
+        requestAnimationFrame(() => panel.classList.add('visible'));
+      } else {
+        panel.classList.add('hidden');
+      }
+    });
+  });
+});
+
 /* ── Active nav highlight on scroll ─────────────────────────── */
 const sections = document.querySelectorAll('main section[id]');
 const navLinks  = document.querySelectorAll('.nav-link');
