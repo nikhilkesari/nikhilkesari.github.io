@@ -365,6 +365,64 @@
             </div>
 
             <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
+              <h3 class="text-base font-semibold text-slate-900 mb-3">Stryker when agents write the tests</h3>
+              <div class="space-y-4 text-sm text-slate-600">
+                <p>
+                  In the context of agent-generated tests (LLMs like GitHub Copilot or automated test-generation tools),
+                  Stryker Mutator becomes <strong>even more critical</strong>. It is the automated audit for the quality of
+                  the tests the agent produces.
+                </p>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">1. Validating “hallucinated” coverage</h4>
+                  <p>Agents can reach high line coverage, but coverage does not equal verification.</p>
+                  <ul class="list-disc list-inside space-y-1">
+                    <li><strong>The risk:</strong> A test executes code but has weak or irrelevant assertions.</li>
+                    <li>
+                      <strong>Stryker’s role:</strong> If <code class="inline-code">+</code> changes to
+                      <code class="inline-code">-</code> and the test still passes, the test is hollow.
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">2. Guarding against “happy path” bias</h4>
+                  <p>
+                    Agents often miss subtle boundaries (off-by-one errors, hidden conditionals). Stryker’s boundary
+                    mutations (like <code class="inline-code">&lt;=</code> to <code class="inline-code">&lt;</code>) target
+                    those gaps and reveal where edge cases are missing.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">3. Automated quality control for automated code</h4>
+                  <p>
+                    Avoid a circular dependency of trust where an AI writes code and an AI writes tests. Treat Stryker as
+                    the automated gatekeeper: review the mutation report, not hundreds of tests.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">4. Improving agent prompts (the feedback loop)</h4>
+                  <p>
+                    If the mutation report shows survivors in areas like null checks or boundary logic, feed that back to
+                    the agent to regenerate stronger tests.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-900 mb-1">5. Managing test bloat</h4>
+                  <p>
+                    Agents can generate thousands of lines of tests. If removing a test does not change the mutation
+                    score, it is redundant. Stryker keeps your TypeScript suite lean and fast.
+                  </p>
+                </div>
+                <div class="rounded-xl border border-[#FFE19C] bg-[#FFF7E0] p-4 text-slate-700">
+                  <p class="font-semibold text-slate-900 mb-1">The engineering manager’s bottom line</p>
+                  <p>
+                    Agent-written tests are cheap to create, but expensive to trust. Stryker <strong>reclaims that trust</strong>
+                    by proving that the suite actually detects defects, turning auto-generated tests into a verified safety net.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
               <h3 class="text-base font-semibold text-slate-900 mb-3">Professional implementation note</h3>
               <ol class="list-decimal list-inside text-sm text-slate-600 space-y-2">
                 <li><strong>Set a baseline:</strong> First run to see your starting score (often 40–60%).</li>
