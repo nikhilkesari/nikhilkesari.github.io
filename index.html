@@ -1,747 +1,1335 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nikhil S Kesari — Engineering Manager</title>
-  <meta name="description" content="Nikhil S Kesari — Engineering Manager. I lead engineering teams that ship at scale. We build web applications." />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              orange:     '#FFA763',
-              yellow:     '#FFE19C',
-              cream:      '#FFFFE3',
-              'sky-blue':   '#BDEDFF',
-              'light-blue': '#D6FAFF',
-              400: '#FFD494',
-              500: '#FFA763',
-              600: '#FFA763',
-              700: '#e8934a',
-            }
-          },
-          fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
-          }
-        }
-      }
+  <title>Nikhil S Kesari · zsh · copilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ══════════════════════════════
+       PLASTICINE THEME PALETTE
+       interwoven-strands-of-plasticine-in-primary-colors
+    ══════════════════════════════ */
+    :root {
+      /* Dark terminal surfaces */
+      --bg:          #0d1117;
+      --bg2:         #161b22;
+      --bg3:         #21262d;
+      --bg4:         #30363d;
+
+      /* Terminal text */
+      --text:        #e6edf3;
+      --muted:       #8b949e;
+      --faint:       #6e7681;
+
+      /* Primary accent — vivid orange */
+      --copilot:     #D97904;
+      --copilot-d:   #a55a02;
+      --copilot-glow: rgba(217,121,4,0.30);
+
+      /* Plasticine 5-color semantic palette */
+      --blue:        #1570BF;   /* bold blue   */
+      --green:       #ABD948;   /* lime green  */
+      --yellow:      #F2B90F;   /* amber/gold  */
+      --orange:      #D97904;   /* vivid orange */
+      --red:         #F23827;   /* bold red    */
+      --pink:        #f778ba;
+
+      /* Powerline segment BGs — dark tints of plasticine colors */
+      --seg-user-bg:  #291200;  /* deep orange  - user */
+      --seg-path-bg:  #071830;  /* deep navy    - path */
+      --seg-git-bg:   #162406;  /* deep lime    - git  */
+      --seg-err-bg:   #2d0808;  /* deep red     - exit */
+
+      /* Chrome bar */
+      --chrome-bg:   #1c1c1e;
+
+      /* Border */
+      --border:      rgba(217,121,4,0.18);
     }
-  </script>
-  <link rel="stylesheet" href="assets/style.css" />
+
+    html { scroll-behavior: smooth; }
+
+    a:not([class]) {
+      color: var(--copilot);
+      text-decoration: none;
+    }
+    a:not([class]):hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    body {
+      font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+      background: #0d1117;
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── cursor blink ── */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--copilot);
+      vertical-align: text-bottom;
+      animation: blink 1.2s step-end infinite;
+      box-shadow: 0 0 8px var(--copilot);
+      margin-left: 1px;
+    }
+
+    /* ── Copilot thinking dots ── */
+    @keyframes dot-fade {
+      0%,80%,100% { opacity: 0.15; transform: scale(0.8); }
+      40%          { opacity: 1;    transform: scale(1); }
+    }
+    .thinking { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 6px; }
+    .thinking span {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--copilot);
+      animation: dot-fade 1.4s ease-in-out infinite;
+    }
+    .thinking span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking span:nth-child(3) { animation-delay: 0.4s; }
+
+    /* ══════════════════════════════
+       TERMINAL CHROME
+    ══════════════════════════════ */
+    .window {
+      max-width: 1280px;
+      margin: 32px auto 64px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(217,121,4,0.08),
+        0 0 60px rgba(217,121,4,0.08),
+        0 32px 80px rgba(0,0,0,0.80);
+    }
+
+    .chrome {
+      background: var(--chrome-bg);
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      user-select: none;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot.r { background: #ff5f56; }
+    .dot.y { background: #ffbd2e; }
+    .dot.g { background: #27c93f; }
+    .chrome-mid {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.03em;
+    }
+    .chrome-icon {
+      width: 14px; height: 14px;
+      background: var(--copilot);
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 0 6px rgba(217,121,4,0.5);
+    }
+
+    /* ── Tab bar ── */
+    .tab-bar {
+      background: #161b22;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 0 12px;
+    }
+    .tab {
+      font-size: 0.72rem;
+      color: var(--muted);
+      padding: 8px 16px;
+      border-bottom: 2px solid transparent;
+      cursor: default;
+    }
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--copilot);
+    }
+    .tab-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      margin-right: 6px;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    /* ── Main terminal body ── */
+    .term {
+      background: var(--bg);
+      padding: clamp(20px, 3vw, 36px) clamp(18px, 3vw, 36px) 48px;
+    }
+
+    /* ══════════════════════════════
+       POWERLINE PROMPT
+       Two-line Powerlevel10k style
+    ══════════════════════════════ */
+    .pl-block { margin-bottom: 4px; }
+
+    /* ── Line 1: connector + segments + right-side time ── */
+    .pl-l1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0;
+    }
+    .pl-segs { display: flex; align-items: stretch; gap: 0; }
+    .pl-connector { color: var(--faint); font-size: 0.74rem; margin-right: 4px; }
+
+    /* ── Each powerline segment ── */
+    .pl-seg {
+      --seg-bg: var(--bg3);
+      --seg-fg: var(--text);
+      background: var(--seg-bg);
+      color: var(--seg-fg);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 12px;
+      height: 22px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      position: relative;
+      margin-right: 11px;
+      white-space: nowrap;
+    }
+    /* Powerline right-arrow via CSS border triangle */
+    .pl-seg::after {
+      content: '';
+      position: absolute;
+      right: -11px;
+      top: 0;
+      width: 0;
+      border-top: 11px solid transparent;
+      border-bottom: 11px solid transparent;
+      border-left: 11px solid var(--seg-bg);
+      z-index: 2;
+    }
+    .pl-seg:last-child::after { display: none; }
+    .pl-seg:last-child { margin-right: 0; }
+    /* Rounded left on first segment */
+    .pl-seg:first-child { border-radius: 4px 0 0 4px; padding-left: 10px; }
+
+    /* Segment color variants */
+    .seg-user  { --seg-bg: var(--seg-user-bg); --seg-fg: #ffc878; }
+    .seg-path  { --seg-bg: var(--seg-path-bg); --seg-fg: var(--blue); }
+    .seg-git   { --seg-bg: var(--seg-git-bg);  --seg-fg: var(--green); }
+    .seg-exit  { --seg-bg: var(--seg-err-bg);  --seg-fg: var(--red); }
+    .seg-venv  { --seg-bg: #1f2d1f;            --seg-fg: #7ee787; }
+    .seg-clock { --seg-bg: var(--bg3);         --seg-fg: var(--faint); font-weight: 400; }
+
+    /* Right-side clock (separate, left-pointing style) */
+    .pl-right { font-size: 0.68rem; color: var(--faint); font-weight: 400; }
+
+    /* ── Line 2: prompt symbol ── */
+    .pl-l2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .pl-corner { color: var(--faint); font-size: 0.74rem; }
+    .pl-symbol {
+      color: var(--copilot);
+      font-size: 0.88rem;
+      text-shadow: 0 0 10px var(--copilot);
+    }
+    .pl-cmd {
+      color: var(--text);
+      font-size: 0.82rem;
+    }
+    .pl-cmd .cmd-name { color: var(--blue); }
+    .pl-cmd .cmd-flag { color: var(--orange); }
+    .pl-cmd .cmd-arg  { color: var(--yellow); }
+
+    /* ══════════════════════════════
+       COPILOT OUTPUT HEADER
+    ══════════════════════════════ */
+    .copilot-header {
+      margin-bottom: 32px;
+      padding: 0 0 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .copilot-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .copilot-gem {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--copilot-d), var(--copilot));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 0 16px var(--copilot-glow);
+    }
+    .copilot-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .copilot-name span { color: var(--copilot); }
+    .copilot-version {
+      font-size: 0.68rem;
+      color: var(--faint);
+      margin-left: 4px;
+    }
+
+    /* ══════════════════════════════
+       SECTION OUTPUT LABEL
+    ══════════════════════════════ */
+    .out-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--copilot);
+      margin-bottom: 14px;
+    }
+    .out-label::before { content: '# '; color: var(--faint); font-weight: 400; }
+    .out-label::after  { content: ''; flex: 1; border-top: 1px dashed rgba(217,121,4,0.18); margin-left: 8px; }
+
+    /* ── Generic output text ── */
+    .out { font-size: 0.80rem; color: var(--muted); line-height: 1.8; margin-bottom: 8px; padding-left: 4px; }
+    .out .hi { color: var(--text); font-weight: 500; }
+    .out .accent { color: var(--copilot); }
+    .out .blue  { color: var(--blue); }
+    .out .green { color: var(--green); }
+    .out .yellow { color: var(--yellow); }
+
+    /* ── Spacer ── */
+    .gap  { height: 32px; }
+    .gap-sm { height: 16px; }
+
+    /* ══════════════════════════════
+       HERO / WHOAMI
+    ══════════════════════════════ */
+    .hero-banner {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--orange), var(--yellow), var(--green), var(--blue));
+    }
+    .hero-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .hero-title .name-accent {
+      background: linear-gradient(90deg, var(--orange), var(--yellow), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-role {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(217,121,4,0.10);
+      border: 1px solid rgba(217,121,4,0.25);
+      color: var(--copilot);
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: blink 2s ease-in-out infinite;
+    }
+    .hero-desc {
+      font-size: 0.82rem;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 20px;
+    }
+    .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.22s;
+      letter-spacing: 0.01em;
+    }
+    .btn-copilot {
+      background: linear-gradient(135deg, var(--copilot-d), var(--copilot));
+      color: white;
+      box-shadow: 0 4px 16px rgba(217,121,4,0.40);
+    }
+    .btn-copilot:hover { box-shadow: 0 6px 24px rgba(217,121,4,0.55); transform: translateY(-1px); }
+    .btn-ghost {
+      border: 1px solid var(--bg4);
+      color: var(--muted);
+    }
+    .btn-ghost:hover { border-color: rgba(217,121,4,0.40); color: var(--copilot); }
+
+    /* ══════════════════════════════
+       STATS — copilot-style info boxes
+    ══════════════════════════════ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--bg4);
+      border: 1px solid var(--bg4);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .stat-cell {
+      background: var(--bg2);
+      padding: 18px 14px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .stat-cell:hover { background: var(--bg3); }
+    .stat-num {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--copilot);
+      text-shadow: 0 0 18px rgba(217,121,4,0.45);
+      line-height: 1;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+    .stat-key { font-size: 0.66rem; color: var(--faint); line-height: 1.5; }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ══════════════════════════════
+       GIT LOG — experience timeline
+    ══════════════════════════════ */
+    .git-log { display: flex; flex-direction: column; gap: 0; margin-bottom: 4px; }
+    .git-item {
+      display: grid;
+      grid-template-columns: 80px 20px 1fr;
+      gap: 0 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .git-item:last-child { border-bottom: none; }
+    .git-hash { font-size: 0.70rem; color: var(--yellow); font-weight: 500; padding-top: 2px; white-space: nowrap; }
+    .git-graph-col { display: flex; flex-direction: column; align-items: center; }
+    .git-circle {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 3px;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .git-line { width: 2px; flex: 1; margin-top: 4px; opacity: 0.25; }
+    .git-body h4 { font-size: 0.86rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .git-meta {
+      font-size: 0.72rem;
+      color: var(--copilot);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .git-period { color: var(--faint); font-weight: 400; }
+    .git-ref {
+      font-size: 0.66rem;
+      padding: 1px 8px;
+      border-radius: 100px;
+      border: 1px solid;
+    }
+    .ref-head { border-color: rgba(217,121,4,0.35); color: var(--copilot); background: rgba(217,121,4,0.07); }
+    .ref-origin { border-color: rgba(21,112,191,0.35); color: var(--blue); background: rgba(21,112,191,0.07); }
+    .git-body p { font-size: 0.76rem; line-height: 1.72; color: var(--muted); }
+    @media (max-width: 480px) { .git-item { grid-template-columns: 64px 16px 1fr; gap: 0 8px; } }
+
+    /* ══════════════════════════════
+       TREE — skills
+    ══════════════════════════════ */
+    .tree { font-size: 0.78rem; color: var(--muted); line-height: 1.9; padding-left: 4px; margin-bottom: 4px; }
+    .tree-branch { color: var(--faint); }
+    .tree-dir { color: var(--blue); font-weight: 600; }
+    .tree-file { color: var(--text); }
+    .tree-chip {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 1px 8px;
+      border-radius: 3px;
+      border: 1px solid var(--bg4);
+      color: var(--faint);
+      margin-left: 4px;
+      margin-bottom: 2px;
+      vertical-align: middle;
+      transition: all 0.18s;
+    }
+    .tree-chip:hover { border-color: rgba(217,121,4,0.35); color: var(--copilot); }
+
+    /* ══════════════════════════════
+       PROJECTS — ls -la style
+    ══════════════════════════════ */
+    .ls-header {
+      font-size: 0.70rem;
+      color: var(--faint);
+      padding: 0 0 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      margin-bottom: 4px;
+      display: grid;
+      grid-template-columns: 60px 80px 80px 1fr;
+      gap: 12px;
+    }
+    .ls-row {
+      display: grid;
+      grid-template-columns: 60px 80px 80px 1fr;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 0.76rem;
+      align-items: baseline;
+      transition: background 0.18s;
+      border-radius: 4px;
+      cursor: default;
+    }
+    .ls-row:last-child { border-bottom: none; }
+    .ls-row:hover { background: var(--bg2); padding-left: 6px; }
+    .ls-perm { color: var(--green); font-size: 0.70rem; }
+    .ls-size { color: var(--yellow); font-size: 0.70rem; }
+    .ls-date { color: var(--faint); font-size: 0.70rem; }
+    .ls-name { color: var(--blue); font-weight: 600; }
+    .ls-name span { color: var(--muted); font-weight: 400; font-size: 0.72rem; margin-left: 8px; }
+    .ls-tag {
+      display: inline-block;
+      font-size: 0.63rem;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 3px;
+      margin-left: 6px;
+      background: rgba(217,121,4,0.08);
+      border: 1px solid rgba(217,121,4,0.20);
+      color: var(--copilot);
+      vertical-align: middle;
+    }
+    @media (max-width: 560px) { .ls-header, .ls-row { grid-template-columns: 60px 1fr; } .ls-size,.ls-date { display: none; } }
+
+    /* ══════════════════════════════
+       WRITING — rss feed list
+    ══════════════════════════════ */
+    .feed-list { display: flex; flex-direction: column; gap: 0; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; }
+    .feed-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 13px 18px;
+      background: var(--bg2);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.18s;
+    }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-item:hover { background: var(--bg3); }
+    .feed-item:hover .feed-title { color: var(--copilot); }
+    .feed-icon { color: var(--faint); font-size: 0.80rem; flex-shrink: 0; }
+    .feed-title { font-size: 0.82rem; font-weight: 500; color: var(--text); margin-bottom: 2px; transition: color 0.18s; }
+    .feed-meta { font-size: 0.68rem; color: var(--faint); }
+    .feed-arrow { color: var(--copilot); opacity: 0.4; flex-shrink: 0; transition: all 0.18s; }
+    .feed-item:hover .feed-arrow { opacity: 1; transform: translateX(3px); }
+
+    /* ══════════════════════════════
+       CONNECT
+    ══════════════════════════════ */
+    .connect-panel {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .connect-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--orange), var(--yellow), var(--blue));
+    }
+    .connect-label { font-size: 0.70rem; color: var(--copilot); font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 6px; }
+    .connect-panel h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 6px; letter-spacing: -0.01em; }
+    .connect-panel p { font-size: 0.78rem; color: var(--muted); max-width: 360px; line-height: 1.7; }
+    .soc-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .soc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.74rem;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--bg4);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.22s;
+    }
+    .soc-btn:hover {
+      border-color: rgba(217,121,4,0.45);
+      color: var(--copilot);
+      background: rgba(217,121,4,0.07);
+      box-shadow: 0 0 12px rgba(217,121,4,0.15);
+    }
+    @media (max-width: 560px) { .connect-panel { flex-direction: column; align-items: flex-start; } }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      color: var(--faint);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-copilot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--faint);
+    }
+    .footer-gem {
+      width: 16px; height: 16px;
+      background: linear-gradient(135deg, var(--copilot-d), var(--copilot));
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════
+       HERO KV (identity key-values)
+    ══════════════════════════════ */
+    .hero-kv {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .kv-row {
+      display: flex;
+      align-items: center;
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+    .kv-key {
+      color: var(--faint);
+      font-size: 0.72rem;
+      min-width: 76px;
+      font-weight: 400;
+    }
+    .kv-sep {
+      color: var(--faint);
+      margin-right: 10px;
+      font-weight: 400;
+    }
+    .kv-val {
+      color: var(--text);
+      font-size: 0.78rem;
+    }
+    .hero-rule {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.07) 0%, transparent 80%);
+      margin: 16px 0;
+    }
+
+    /* ══════════════════════════════
+       WIDE-SCREEN LAYOUT
+    ══════════════════════════════ */
+    @media (max-width: 680px) { .window { margin: 12px; } }
+    @media (min-width: 1300px) { .window { margin: 48px auto 80px; } }
+
+    @media (min-width: 960px) {
+      .hero-banner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 48px;
+        align-items: start;
+        padding: 32px 36px;
+      }
+      .hero-title { font-size: clamp(1.8rem, 2.2vw, 3rem); margin-bottom: 8px; }
+      .hero-rule { display: none; }
+      .hero-desc { max-width: 100%; margin-bottom: 24px; }
+    }
+
+    @media (min-width: 1100px) {
+      .term { padding: 44px 52px 64px; }
+      .stat-num { font-size: 2.1rem; }
+      .git-item { grid-template-columns: 96px 22px 1fr; }
+      .git-hash { font-size: 0.75rem; }
+      .ls-header, .ls-row { grid-template-columns: 70px 90px 90px 1fr; }
+      .connect-panel { padding: 36px 40px; }
+    }
+
+
+    /* ══════════════════════════════
+       COPILOT HEADER VARIANTS
+    ══════════════════════════════ */
+    .copilot-gem-lg {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--copilot-d), var(--copilot));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      box-shadow: 0 0 24px var(--copilot-glow);
+      flex-shrink: 0;
+    }
+
+    /* ── Option 2: Chat Panel ── */
+    .ch-panel {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-left: 3px solid var(--copilot);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 32px;
+    }
+    .ch-row1 { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+    .ch-name-line {
+      font-size: 0.95rem; font-weight: 700; color: var(--text);
+      display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;
+    }
+    .ch-name-line em { color: var(--copilot); font-style: normal; }
+    .ch-subtitle {
+      font-size: 0.75rem; color: var(--faint);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ch-status { font-size: 0.72rem; color: var(--faint); margin-bottom: 10px; }
+    .ch-tip {
+      font-size: 0.71rem; color: var(--muted);
+      padding: 7px 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 5px; margin-bottom: 8px;
+    }
+    .ch-tip kbd {
+      font-family: inherit; color: var(--copilot); font-weight: 700;
+      background: rgba(217,121,4,0.12);
+      padding: 1px 5px; border-radius: 3px; font-size: 0.68rem;
+    }
+    .ch-disc { font-size: 0.67rem; color: var(--faint); opacity: 0.7; }
+
+  </style>
 </head>
-<body class="bg-[#FFFFE3] text-slate-800 antialiased">
+<body>
 
-  <!-- ── Navigation ───────────────────────────────────────────── -->
-  <header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
-    <nav class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#hero" class="text-sm font-semibold tracking-widest uppercase text-[#FFA763] hover:text-[#e8934a] transition-colors">
-        NSK
-      </a>
 
-      <!-- Desktop nav -->
-      <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-        <li><a href="#about"   class="nav-link hover:text-[#FFA763] transition-colors">About</a></li>
-        <li><a href="#skills"  class="nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
-        <li><a href="#projects" class="nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
-        <li><a href="#learning" class="nav-link hover:text-[#FFA763] transition-colors">Learning</a></li>
-        <li><a href="#resources" class="nav-link hover:text-[#FFA763] transition-colors">Resources</a></li>
-        <li><a href="#contact" class="nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
-      </ul>
+<div class="window">
 
-      <!-- Mobile hamburger -->
-      <button id="menu-btn" aria-label="Toggle menu" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-[#FFA763] hover:bg-[#FFE19C]/40 transition-colors">
-        <svg id="icon-open"  class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </nav>
-
-    <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#FFFFE3] border-t border-[#FFE19C] shadow-sm">
-      <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium text-slate-600">
-        <li><a href="#about"    class="mobile-nav-link hover:text-[#FFA763] transition-colors">About</a></li>
-        <li><a href="#skills"   class="mobile-nav-link hover:text-[#FFA763] transition-colors">Skills</a></li>
-        <li><a href="#projects" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Projects</a></li>
-        <li><a href="#learning" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Learning</a></li>
-        <li><a href="#resources" class="mobile-nav-link hover:text-[#FFA763] transition-colors">Resources</a></li>
-        <li><a href="#contact"  class="mobile-nav-link hover:text-[#FFA763] transition-colors">Contact</a></li>
-      </ul>
+  <!-- ── CHROME BAR ── -->
+  <div class="chrome">
+    <div class="dot r"></div>
+    <div class="dot y"></div>
+    <div class="dot g"></div>
+    <div class="chrome-mid">
+      <div class="chrome-icon"><svg width="13" height="11" viewBox="0 0 76 63" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="GitHub Copilot"><path d="M30.0833 36.225C31.8322 36.225 33.25 37.6353 33.25 39.375V45.675C33.25 47.4147 31.8322 48.825 30.0833 48.825C28.3344 48.825 26.9167 47.4147 26.9167 45.675V39.375C26.9167 37.6353 28.3344 36.225 30.0833 36.225Z"/><path d="M49.0833 39.375C49.0833 37.6353 47.6656 36.225 45.9167 36.225C44.1678 36.225 42.75 37.6353 42.75 39.375V45.675C42.75 47.4147 44.1678 48.825 45.9167 48.825C47.6656 48.825 49.0833 47.4147 49.0833 45.675V39.375Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.8017 5.53174C24.5479 2.06952 30.9897 0 38 0C45.0103 0 51.4521 2.06952 56.1983 5.53174C59.0804 7.63415 61.3858 10.2958 62.7518 13.343C64.0304 15.504 64.4254 18.0211 64.3095 20.7434L67.3951 27.8513L67.6766 27.9073C69.846 28.3389 71.769 29.5757 73.055 31.3666L74.9678 34.0304C75.6391 34.9653 76 36.0855 76 37.2345L76 44.8875C76 46.5539 75.0201 47.9954 74.2125 48.9593C73.3244 50.0194 72.1963 51.0187 71.1503 51.8511C70.0904 52.6945 69.041 53.4246 68.2627 53.9407C67.8716 54.2001 67.5443 54.4085 67.3124 54.5535C67.1963 54.6261 67.1039 54.6829 67.0389 54.7226L66.9907 54.7519L66.9626 54.7689L66.942 54.7819C66.9121 54.8007 66.8703 54.8267 66.8171 54.8596C66.7105 54.9252 66.5576 55.0179 66.3607 55.1339C65.967 55.3657 65.3966 55.6907 64.6674 56.0775C63.2101 56.8507 61.1123 57.8744 58.5177 58.8965C53.3435 60.9349 46.1108 63 38 63C29.8892 63 22.6565 60.9349 17.4823 58.8965C14.8877 57.8744 12.7899 56.8507 11.3326 56.0775C10.6034 55.6907 10.033 55.3657 9.63926 55.1339C9.44236 55.0179 9.28951 54.9252 9.18295 54.8596C9.12966 54.8267 9.08793 54.8007 9.05804 54.7819L9.03921 54.77L9.03742 54.7689L9.0078 54.751L8.96105 54.7226C8.89612 54.6829 8.80366 54.6261 8.6876 54.5535C8.45568 54.4085 8.12839 54.2001 7.73729 53.9407C6.95897 53.4246 5.90955 52.6945 4.84969 51.8511C3.80373 51.0187 2.67558 50.0194 1.78746 48.9593C0.979935 47.9954 0 46.5539 0 44.8875L0 37.2345C0 36.0855 0.360889 34.9653 1.03223 34.0304L2.94502 31.3666C4.23097 29.5757 6.15396 28.3389 8.32343 27.9073L8.60491 27.8513L11.6904 20.7435C11.5745 18.021 11.9696 15.5038 13.2483 13.3428C14.6143 10.2957 16.9197 7.6341 19.8017 5.53174ZM12.6667 30.4133L13.4444 28.6216C13.9103 29.5101 14.5001 30.3247 15.2507 31.0357C17.7579 33.4105 21.4546 34.0908 26.266 33.6721C30.7448 33.2823 33.8831 31.4669 35.8431 28.5869C35.9006 28.5025 35.9568 28.4175 36.0118 28.3319C36.6744 28.344 37.3378 28.35 38 28.35C38.6622 28.35 39.3256 28.344 39.9882 28.3319C40.0432 28.4175 40.0994 28.5025 40.1568 28.5869C42.1169 31.4669 45.2551 33.2823 49.7339 33.6721C54.5454 34.0908 58.2421 33.4105 60.7493 31.0357C61.4998 30.3247 62.0897 29.5101 62.5555 28.6216L63.3333 30.4133V51.4169C63.0755 51.5617 62.7743 51.7269 62.4321 51.9084C61.1063 52.6118 59.1715 53.5569 56.7687 54.5035C51.9482 56.4026 45.3267 58.275 38 58.275C30.6733 58.275 24.0518 56.4026 19.2313 54.5035C16.8285 53.5569 14.8937 52.6118 13.5679 51.9084C13.2257 51.7269 12.9245 51.5617 12.6667 51.4169V30.4133ZM31.9097 25.938C31.3604 26.7452 30.6153 27.4657 29.5492 28.0075C28.6004 28.4898 27.3975 28.8305 25.852 28.965C25.5811 28.9886 25.3195 29.0078 25.0667 29.0227C21.2752 29.2464 19.4845 28.5215 18.5263 27.6139C18.4636 27.5544 18.4023 27.4923 18.3424 27.4274C17.9233 26.9728 17.5746 26.3803 17.2911 25.6044C16.9133 24.5703 16.6515 23.2105 16.4938 21.4174C16.2206 18.3103 16.7222 16.3904 17.821 15.0577C18.9634 13.6721 21.1279 12.457 25.2373 11.6493C29.2857 10.8536 31.1935 11.5248 32.1325 12.4223C33.1478 13.3926 33.8356 15.3605 33.6883 18.9877C33.5694 21.916 33.0399 24.2775 31.9097 25.938ZM44.0902 25.938C44.6396 26.7452 45.3847 27.4657 46.4508 28.0075C47.3995 28.4898 48.6025 28.8305 50.1479 28.965C54.4823 29.3423 56.4515 28.5821 57.4737 27.6139C57.9757 27.1384 58.3849 26.4911 58.7088 25.6044C59.0866 24.5703 59.3484 23.2105 59.5061 21.4174C59.7794 18.3103 59.2777 16.3904 58.179 15.0577C57.0365 13.6721 54.872 12.457 50.7627 11.6493C46.7143 10.8536 44.8065 11.5248 43.8674 12.4223C42.8521 13.3926 42.1644 15.3605 42.3117 18.9877C42.4306 21.916 42.9601 24.2775 44.0902 25.938ZM36.752 21.2155C37.5714 21.0117 38.4286 21.0117 39.2481 21.2155L39.2953 21.2272C39.9316 21.3855 40.5763 21.0007 40.7354 20.3677C40.8944 19.7348 40.5076 19.0935 39.8714 18.9353L39.8241 18.9235C38.6265 18.6257 37.3736 18.6257 36.1759 18.9235L36.1287 18.9353C35.4924 19.0935 35.1056 19.7348 35.2646 20.3677C35.4237 21.0007 36.0684 21.3855 36.7047 21.2272L36.752 21.2155Z"/></svg></div>
+      zsh &nbsp;·&nbsp; nikhil@portfolio &nbsp;·&nbsp; ~/portfolio
     </div>
-  </header>
+  </div>
 
-  <main>
+  <!-- ── TAB BAR ── -->
+  <div class="tab-bar">
+    <div class="tab active"><span class="tab-dot"></span>1. zsh</div>
+    <div class="tab">2. copilot</div>
+    <div class="tab">3. logs</div>
+  </div>
 
-    <!-- ── Hero ─────────────────────────────────────────────────── -->
-    <section id="hero" class="min-h-screen flex items-center pt-20 relative overflow-hidden"
-             style="background-image: url('https://github.com/user-attachments/assets/2561486e-bd5e-47c9-9eeb-2d67053005a4'); background-size: cover; background-position: center;">
-      <!-- Dark overlay -->
-      <div class="absolute inset-0 bg-black/60"></div>
-      <div class="max-w-5xl mx-auto px-6 py-24 relative z-10">
-        <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-4 fade-in">Hello, I'm</p>
-        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-6 fade-in fade-delay-1">
-          Nikhil S<br class="hidden sm:block" /> Kesari
-        </h1>
-        <p class="text-xl sm:text-2xl text-[#FFE19C] font-light mb-4 fade-in fade-delay-2">Engineering Manager</p>
-        <p class="text-lg text-white/80 max-w-xl leading-relaxed mb-10 fade-in fade-delay-3">
-          I lead engineering teams that ship at scale.<br class="hidden sm:block" />
-          We build web applications.
-        </p>
+  <!-- ── TERMINAL BODY ── -->
+  <div class="term">
 
-        <div class="flex flex-wrap gap-3 fade-in fade-delay-4">
-          <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/10 border border-white/30 text-white text-sm font-medium hover:bg-white/20 transition-colors">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            GitHub
-          </a>
-          <a href="https://linkedin.com/in/nikhilkesari" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#FFA763] text-white text-sm font-medium hover:bg-[#e8934a] transition-colors">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            LinkedIn
-          </a>
-          <a href="mailto:nikhil.grk@gmail.com"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/40 text-white text-sm font-medium hover:border-[#FFA763] hover:text-[#FFA763] transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            Email
-          </a>
-        </div>
-
-        <!-- Scroll cue -->
-        <div class="mt-20 hidden sm:flex items-center gap-2 text-white/40 text-xs tracking-widest uppercase fade-in fade-delay-4">
-          <span class="scroll-cue-line"></span>
-          Scroll
-        </div>
-      </div>
-    </section>
-
-    <!-- ── About ─────────────────────────────────────────────────── -->
-    <section id="about" class="py-24 bg-white">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="reveal grid md:grid-cols-2 gap-16 items-start">
-          <div>
-            <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">About</p>
-            <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 leading-snug">
-              Building teams.<br />Shipping products.
-            </h2>
+    <!-- Copilot startup header -->
+    <div class="ch-panel">
+      <div class="ch-row1">
+        <div class="copilot-gem-lg"><svg width="32" height="27" viewBox="0 0 76 63" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="GitHub Copilot"><path d="M30.0833 36.225C31.8322 36.225 33.25 37.6353 33.25 39.375V45.675C33.25 47.4147 31.8322 48.825 30.0833 48.825C28.3344 48.825 26.9167 47.4147 26.9167 45.675V39.375C26.9167 37.6353 28.3344 36.225 30.0833 36.225Z"/><path d="M49.0833 39.375C49.0833 37.6353 47.6656 36.225 45.9167 36.225C44.1678 36.225 42.75 37.6353 42.75 39.375V45.675C42.75 47.4147 44.1678 48.825 45.9167 48.825C47.6656 48.825 49.0833 47.4147 49.0833 45.675V39.375Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.8017 5.53174C24.5479 2.06952 30.9897 0 38 0C45.0103 0 51.4521 2.06952 56.1983 5.53174C59.0804 7.63415 61.3858 10.2958 62.7518 13.343C64.0304 15.504 64.4254 18.0211 64.3095 20.7434L67.3951 27.8513L67.6766 27.9073C69.846 28.3389 71.769 29.5757 73.055 31.3666L74.9678 34.0304C75.6391 34.9653 76 36.0855 76 37.2345L76 44.8875C76 46.5539 75.0201 47.9954 74.2125 48.9593C73.3244 50.0194 72.1963 51.0187 71.1503 51.8511C70.0904 52.6945 69.041 53.4246 68.2627 53.9407C67.8716 54.2001 67.5443 54.4085 67.3124 54.5535C67.1963 54.6261 67.1039 54.6829 67.0389 54.7226L66.9907 54.7519L66.9626 54.7689L66.942 54.7819C66.9121 54.8007 66.8703 54.8267 66.8171 54.8596C66.7105 54.9252 66.5576 55.0179 66.3607 55.1339C65.967 55.3657 65.3966 55.6907 64.6674 56.0775C63.2101 56.8507 61.1123 57.8744 58.5177 58.8965C53.3435 60.9349 46.1108 63 38 63C29.8892 63 22.6565 60.9349 17.4823 58.8965C14.8877 57.8744 12.7899 56.8507 11.3326 56.0775C10.6034 55.6907 10.033 55.3657 9.63926 55.1339C9.44236 55.0179 9.28951 54.9252 9.18295 54.8596C9.12966 54.8267 9.08793 54.8007 9.05804 54.7819L9.03921 54.77L9.03742 54.7689L9.0078 54.751L8.96105 54.7226C8.89612 54.6829 8.80366 54.6261 8.6876 54.5535C8.45568 54.4085 8.12839 54.2001 7.73729 53.9407C6.95897 53.4246 5.90955 52.6945 4.84969 51.8511C3.80373 51.0187 2.67558 50.0194 1.78746 48.9593C0.979935 47.9954 0 46.5539 0 44.8875L0 37.2345C0 36.0855 0.360889 34.9653 1.03223 34.0304L2.94502 31.3666C4.23097 29.5757 6.15396 28.3389 8.32343 27.9073L8.60491 27.8513L11.6904 20.7435C11.5745 18.021 11.9696 15.5038 13.2483 13.3428C14.6143 10.2957 16.9197 7.6341 19.8017 5.53174ZM12.6667 30.4133L13.4444 28.6216C13.9103 29.5101 14.5001 30.3247 15.2507 31.0357C17.7579 33.4105 21.4546 34.0908 26.266 33.6721C30.7448 33.2823 33.8831 31.4669 35.8431 28.5869C35.9006 28.5025 35.9568 28.4175 36.0118 28.3319C36.6744 28.344 37.3378 28.35 38 28.35C38.6622 28.35 39.3256 28.344 39.9882 28.3319C40.0432 28.4175 40.0994 28.5025 40.1568 28.5869C42.1169 31.4669 45.2551 33.2823 49.7339 33.6721C54.5454 34.0908 58.2421 33.4105 60.7493 31.0357C61.4998 30.3247 62.0897 29.5101 62.5555 28.6216L63.3333 30.4133V51.4169C63.0755 51.5617 62.7743 51.7269 62.4321 51.9084C61.1063 52.6118 59.1715 53.5569 56.7687 54.5035C51.9482 56.4026 45.3267 58.275 38 58.275C30.6733 58.275 24.0518 56.4026 19.2313 54.5035C16.8285 53.5569 14.8937 52.6118 13.5679 51.9084C13.2257 51.7269 12.9245 51.5617 12.6667 51.4169V30.4133ZM31.9097 25.938C31.3604 26.7452 30.6153 27.4657 29.5492 28.0075C28.6004 28.4898 27.3975 28.8305 25.852 28.965C25.5811 28.9886 25.3195 29.0078 25.0667 29.0227C21.2752 29.2464 19.4845 28.5215 18.5263 27.6139C18.4636 27.5544 18.4023 27.4923 18.3424 27.4274C17.9233 26.9728 17.5746 26.3803 17.2911 25.6044C16.9133 24.5703 16.6515 23.2105 16.4938 21.4174C16.2206 18.3103 16.7222 16.3904 17.821 15.0577C18.9634 13.6721 21.1279 12.457 25.2373 11.6493C29.2857 10.8536 31.1935 11.5248 32.1325 12.4223C33.1478 13.3926 33.8356 15.3605 33.6883 18.9877C33.5694 21.916 33.0399 24.2775 31.9097 25.938ZM44.0902 25.938C44.6396 26.7452 45.3847 27.4657 46.4508 28.0075C47.3995 28.4898 48.6025 28.8305 50.1479 28.965C54.4823 29.3423 56.4515 28.5821 57.4737 27.6139C57.9757 27.1384 58.3849 26.4911 58.7088 25.6044C59.0866 24.5703 59.3484 23.2105 59.5061 21.4174C59.7794 18.3103 59.2777 16.3904 58.179 15.0577C57.0365 13.6721 54.872 12.457 50.7627 11.6493C46.7143 10.8536 44.8065 11.5248 43.8674 12.4223C42.8521 13.3926 42.1644 15.3605 42.3117 18.9877C42.4306 21.916 42.9601 24.2775 44.0902 25.938ZM36.752 21.2155C37.5714 21.0117 38.4286 21.0117 39.2481 21.2155L39.2953 21.2272C39.9316 21.3855 40.5763 21.0007 40.7354 20.3677C40.8944 19.7348 40.5076 19.0935 39.8714 18.9353L39.8241 18.9235C38.6265 18.6257 37.3736 18.6257 36.1759 18.9235L36.1287 18.9353C35.4924 19.0935 35.1056 19.7348 35.2646 20.3677C35.4237 21.0007 36.0684 21.3855 36.7047 21.2272L36.752 21.2155Z"/></svg></div>
+        <div>
+          <div class="ch-name-line">
+            GitHub <em>Copilot</em> CLI
+            <span class="copilot-version" style="font-size:0.7rem">v1.0.32</span>
           </div>
-          <div class="text-slate-600 leading-relaxed space-y-4">
-            <p>
-              I'm an Engineering Manager with a passion for growing high-performing teams and delivering
-              web applications that make an impact at scale. I thrive at the intersection of people,
-              process, and technology.
-            </p>
-            <p>
-              My work spans cross-functional collaboration, technical strategy, and hands-on engineering
-              culture. I believe the best software is built when talented people are given clarity,
-              autonomy, and trust.
-            </p>
-            <p>
-              Outside of work I'm constantly curious — reading, tinkering, and exploring new ideas.
-            </p>
+          <div class="ch-subtitle">
+            Analyzing your portfolio&hellip;
+            <span class="thinking"><span></span><span></span><span></span></span>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- ── Skills ────────────────────────────────────────────────── -->
-    <section id="skills" class="py-24 bg-[#D6FAFF]">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="reveal mb-12">
-          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Skills</p>
-          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">What I work with</h2>
-        </div>
-
-        <div class="reveal grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-          <div class="skill-group">
-            <h3 class="text-xs font-semibold tracking-widest uppercase text-slate-400 mb-4">Leadership</h3>
-            <div class="flex flex-wrap gap-2">
-              <span class="skill-pill">Engineering Management</span>
-              <span class="skill-pill">Team Building</span>
-              <span class="skill-pill">Hiring & Mentoring</span>
-              <span class="skill-pill">Agile / Scrum</span>
-              <span class="skill-pill">Technical Strategy</span>
-            </div>
-          </div>
-
-          <div class="skill-group">
-            <h3 class="text-xs font-semibold tracking-widest uppercase text-slate-400 mb-4">Frontend</h3>
-            <div class="flex flex-wrap gap-2">
-              <span class="skill-pill">React</span>
-              <span class="skill-pill">TypeScript</span>
-              <span class="skill-pill">JavaScript</span>
-              <span class="skill-pill">HTML &amp; CSS</span>
-              <span class="skill-pill">Tailwind CSS</span>
-            </div>
-          </div>
-
-          <div class="skill-group">
-            <h3 class="text-xs font-semibold tracking-widest uppercase text-slate-400 mb-4">Backend &amp; Infra</h3>
-            <div class="flex flex-wrap gap-2">
-              <span class="skill-pill">Node.js</span>
-              <span class="skill-pill">REST APIs</span>
-              <span class="skill-pill">PostgreSQL</span>
-              <span class="skill-pill">Docker</span>
-              <span class="skill-pill">CI/CD</span>
-              <span class="skill-pill">AWS</span>
-            </div>
-          </div>
-
-        </div>
+      <div class="ch-status">
+        <span style="color:#ABD948">✓</span> Authenticated &nbsp;·&nbsp;
+        <span style="color:#ABD948">✓</span> Model: claude-sonnet-4.6 &nbsp;·&nbsp;
+        <span style="color:var(--yellow)">⚡</span> Portfolio mode
       </div>
-    </section>
+      <div class="ch-tip">
+        ◆ Tip: <kbd>/whoami</kbd> renders your full identity card instantly.
+      </div>
+      <div class="ch-disc">Copilot uses AI. Check for mistakes.</div>
+    </div>
 
-    <!-- ── Projects ──────────────────────────────────────────────── -->
-    <section id="projects" class="py-24 bg-white">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="reveal mb-12">
-          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Projects</p>
-          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">Things I've built</h2>
+
+    <!-- ══ HERO — whoami ══ -->
+    <div class="pl-block" id="hero">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
         </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="pl-cmd">
+          <span class="cmd-name">/whoami</span>
+        </span>
+      </div>
+    </div>
 
-        <div class="reveal grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-          <article class="project-card group">
-            <div class="project-card-inner">
-              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-[#FFA763] transition-colors">
-                Scale Platform
-              </h3>
-              <p class="text-sm text-slate-500 leading-relaxed mb-4">
-                Internal platform that enables engineering teams to deploy and monitor web services
-                with minimal friction. Reduced deployment time by 60%.
+    <div class="out-label">identity</div>
+    <div class="hero-banner">
+            <div class="hero-left">
+        <div class="hero-title"><span class="name-accent">Nikhil S Kesari</span></div>
+              <div class="hero-kv">
+                <div class="kv-row">
+                  <span class="kv-key">role</span><span class="kv-sep">:</span>
+                  <span class="kv-val">Engineering Manager</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-key">company</span><span class="kv-sep">:</span>
+                  <span class="kv-val"><span class="badge"><span class="badge-dot"></span><a href="https://phonpe.com" target="_blank">PhonePe</a></span></span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-key">location</span><span class="kv-sep">:</span>
+                  <span class="kv-val">India</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-key">status</span><span class="kv-sep">:</span>
+                  <span class="kv-val"><span class="badge" style="border-color:rgba(21,112,191,0.25);color:var(--blue);background:rgba(21,112,191,0.07);">Open to ideas and conversations</span></span>
+                </div>
+              </div>
+              <div class="hero-rule"></div>
+      </div>
+      <div class="hero-right">
+        <p class="hero-desc">
+                Hi there, thanks for visiting my site. As you can see my site's theme is based on some of my favourite tools like the terminal, git and the Copilot CLI. I help engineering teams scale systems and AI power them so that teams become more efficient and innovative. I look for challenges at the edge of what's possible with technology, and I enjoy mentoring engineers to grow their careers. If you want to chat about anything, from tech to life, just hit the get_in_touch() button below.
               </p>
-              <div class="flex flex-wrap gap-1.5 mb-4">
-                <span class="tag-pill">React</span>
-                <span class="tag-pill">Node.js</span>
-                <span class="tag-pill">Docker</span>
+              <div class="hero-btns">
+                <a href="#connect" class="btn btn-copilot">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+                  get_in_touch()
+                </a>
+                <a href="#experience" class="btn btn-ghost">git log --career</a>
               </div>
-              <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-1.5 text-xs font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors">
-                View on GitHub
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-              </a>
-            </div>
-          </article>
+      </div>
+    </div>
 
-          <article class="project-card group">
-            <div class="project-card-inner">
-              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-[#FFA763] transition-colors">
-                Team Radar
-              </h3>
-              <p class="text-sm text-slate-500 leading-relaxed mb-4">
-                A lightweight tool for engineering managers to track team health, velocity trends,
-                and individual growth over time.
-              </p>
-              <div class="flex flex-wrap gap-1.5 mb-4">
-                <span class="tag-pill">TypeScript</span>
-                <span class="tag-pill">PostgreSQL</span>
-                <span class="tag-pill">REST API</span>
-              </div>
-              <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-1.5 text-xs font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors">
-                View on GitHub
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-              </a>
-            </div>
-          </article>
+    <div class="gap"></div>
 
-          <article class="project-card group">
-            <div class="project-card-inner">
-              <h3 class="text-base font-semibold text-slate-900 mb-2 group-hover:text-[#FFA763] transition-colors">
-                This Site
-              </h3>
-              <p class="text-sm text-slate-500 leading-relaxed mb-4">
-                My personal website — built with vanilla HTML, Tailwind CSS, and a little JavaScript.
-                Hosted on GitHub Pages.
-              </p>
-              <div class="flex flex-wrap gap-1.5 mb-4">
-                <span class="tag-pill">HTML</span>
-                <span class="tag-pill">Tailwind</span>
-                <span class="tag-pill">JavaScript</span>
-              </div>
-              <a href="https://github.com/nikhilkesari/nikhilkesari.github.io" target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-1.5 text-xs font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors">
-                View source
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-              </a>
-            </div>
-          </article>
+    <!-- ══ STATS — uptime ══ -->
+    <div class="pl-block">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
+        </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="pl-cmd">
+          <span class="cmd-name">copilot</span>
+          <span class="cmd-flag"> /metric</span>
+          <span class="cmd-arg"> career.json</span>
+        </span>
+      </div>
+    </div>
 
+    <div class="out-label">metrics context</div>
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-num">18+</div>
+        <div class="stat-key">years_in_eng</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">50+</div>
+        <div class="stat-key">engineers_mentored</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">10×</div>
+        <div class="stat-key">team_growth</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">∞</div>
+        <div class="stat-key">still_curious</div>
+      </div>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- ══ EXPERIENCE — git log ══ -->
+    <div class="pl-block" id="experience">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
+        </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="pl-cmd">
+          <span class="cmd-name">git</span>
+          <span class="cmd-flag"> log</span>
+          <span class="cmd-arg"> --graph --oneline career</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="out-label">experience context</div>
+    <div class="git-log">
+      <div class="git-item">
+        <div class="git-hash">a3f7c9e</div>
+        <div class="git-graph-col">
+          <div class="git-circle" style="color:var(--copilot);background:var(--copilot)"></div>
+          <div class="git-line" style="background:var(--copilot)"></div>
+        </div>
+        <div class="git-body">
+          <h4>Engineering Manager <span class="git-ref ref-head">HEAD → main</span></h4>
+          <div class="git-meta"><a href="https://www.phonepe.com/" target="_blank">PhonePe</a> <span class="git-period">· 2025 – Present</span></div>
+          <p>Leading multiple backend engineering squads at scale. Roadmap, hiring, cross-team technical strategy. Introduced AI-assisted code review — cut review cycle time by 40%.</p>
         </div>
       </div>
-    </section>
-
-    <!-- ── Learning ─────────────────────────────────────────────── -->
-    <section id="learning" class="py-24 bg-[#D6FAFF]">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="reveal mb-12">
-          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Learning</p>
-          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">What I'm learning now</h2>
-          <p class="text-slate-600 text-sm">A focused deep-dive on mutation testing with Stryker for TypeScript teams.</p>
+      <div class="git-item">
+        <div class="git-hash">b1e4d82</div>
+        <div class="git-graph-col">
+          <div class="git-circle" style="color:var(--blue);background:var(--blue)"></div>
+          <div class="git-line" style="background:var(--blue)"></div>
         </div>
-
-        <div class="reveal grid lg:grid-cols-3 gap-8">
-          <div class="lg:col-span-1">
-            <div class="h-full border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
-              <h3 class="text-lg font-semibold text-slate-900 mb-3">Stryker Mutation Testing</h3>
-              <p class="text-sm text-slate-600 leading-relaxed">
-                Stryker is the gold standard for <strong>Mutation Testing</strong> across JavaScript/TypeScript, .NET,
-                and Scala. It doesn’t test your code — it <strong>tests your tests</strong> by injecting tiny bugs
-                ("mutants") into the source.
-              </p>
-              <div class="mt-5 space-y-3">
-                <p class="text-xs font-semibold tracking-widest uppercase text-slate-400">At-a-glance</p>
-                <ul class="text-sm text-slate-600 list-disc list-inside space-y-2">
-                  <li><strong>Mutation Score:</strong> Percentage of mutants that are killed — the real metric of test effectiveness.</li>
-                  <li>
-                    <strong>Workflow:</strong> Mutate &rarr; Test &rarr; Analyze. If tests fail, the mutant is <strong>Killed</strong>;
-                    if tests pass, it <strong>Survived</strong>.
-                  </li>
-                </ul>
-              </div>
-              <a href="https://stryker-mutator.io" target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-1.5 text-sm font-medium text-[#FFA763] hover:text-[#e8934a] transition-colors mt-5">
-                Explore Stryker
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <div class="lg:col-span-2 space-y-6">
-            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
-              <h3 class="text-base font-semibold text-slate-900 mb-3">Core details for a professional setup</h3>
-              <div class="space-y-4 text-sm text-slate-600">
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">1. TypeScript-specific intelligence</h4>
-                  <ul class="list-disc list-inside space-y-1">
-                    <li><strong>AST-based mutations:</strong> Uses the TypeScript AST and skips interfaces or type definitions.</li>
-                    <li><strong>In-memory type checking:</strong> Mutants that don’t compile are marked <strong>CompileError</strong> and ignored.</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">2. Performance optimization</h4>
-                  <ul class="list-disc list-inside space-y-1">
-                    <li>
-                      <strong>Coverage analysis:</strong>
-                      <code class="inline-code">coverageAnalysis: 'perTest'</code>
-                      runs only the tests that touch a mutant.
-                    </li>
-                    <li><strong>Parallelism:</strong> Worker model runs test runners across CPU cores.</li>
-                    <li><strong>Incremental mode:</strong> Mutate only files changed in the current PR.</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">3. Integration &amp; reporting</h4>
-                  <ul class="list-disc list-inside space-y-1">
-                    <li><strong>Runners:</strong> Jest, Vitest, Mocha, Jasmine, and Karma.</li>
-                    <li><strong>Reporters:</strong> HTML reports that show surviving mutants line-by-line.</li>
-                    <li><strong>Dashboard:</strong> Host reports and surface a Mutation Score badge.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
-              <h3 class="text-base font-semibold text-slate-900 mb-3">Why use Stryker?</h3>
-              <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">1. Coverage isn’t enough</h4>
-                  <p>100% line coverage can still mean zero assertions. Stryker proves what’s actually verified.</p>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">2. Catch leaky edge cases</h4>
-                  <p>Boundary mutations (like <code class="inline-code">&gt;</code> to <code class="inline-code">&lt;</code>) expose real-world bugs early.</p>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">3. Safer refactoring</h4>
-                  <p>A high mutation score gives proof that critical logic changes will be caught by tests.</p>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">4. Gamify quality</h4>
-                  <p>Hunting surviving mutants is motivating and improves the culture of thoughtful testing.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
-              <h3 class="text-base font-semibold text-slate-900 mb-3">Stryker when agents write the tests</h3>
-              <div class="space-y-4 text-sm text-slate-600">
-                <p>
-                  In the context of agent-generated tests (LLMs like GitHub Copilot or automated test-generation tools),
-                  Stryker Mutator becomes <strong>even more critical</strong>. It is the automated audit for the quality of
-                  the tests the agent produces.
-                </p>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">1. Validating “hallucinated” coverage</h4>
-                  <p>Agents can reach high line coverage, but coverage does not equal verification.</p>
-                  <ul class="list-disc list-inside space-y-1">
-                    <li><strong>The risk:</strong> A test executes code but has weak or irrelevant assertions.</li>
-                    <li>
-                      <strong>Stryker’s role:</strong> If <code class="inline-code">+</code> changes to
-                      <code class="inline-code">-</code> and the test still passes, the test is hollow.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">2. Guarding against “happy path” bias</h4>
-                  <p>
-                    Agents often miss subtle boundaries (off-by-one errors, hidden conditionals). Stryker’s boundary
-                    mutations (like <code class="inline-code">&lt;=</code> to <code class="inline-code">&lt;</code>) target
-                    those gaps and reveal where edge cases are missing.
-                  </p>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">3. Automated quality control for automated code</h4>
-                  <p>
-                    Avoid a circular dependency of trust where an AI writes code and an AI writes tests. Treat Stryker as
-                    the automated gatekeeper: review the mutation report, not hundreds of tests.
-                  </p>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">4. Improving agent prompts (the feedback loop)</h4>
-                  <p>
-                    If the mutation report shows survivors in areas like null checks or boundary logic, feed that back to
-                    the agent to regenerate stronger tests.
-                  </p>
-                </div>
-                <div>
-                  <h4 class="font-semibold text-slate-900 mb-1">5. Managing test bloat</h4>
-                  <p>
-                    Agents can generate thousands of lines of tests. If removing a test does not change the mutation
-                    score, it is redundant. Stryker keeps your TypeScript suite lean and fast.
-                  </p>
-                </div>
-                <div class="rounded-xl border border-[#FFE19C] bg-[#FFF7E0] p-4 text-slate-700">
-                  <p class="font-semibold text-slate-900 mb-1">The engineering manager’s bottom line</p>
-                  <p>
-                    Agent-written tests are cheap to create, but expensive to trust. Stryker <strong>reclaims that trust</strong>
-                    by proving that the suite actually detects defects, turning auto-generated tests into a verified safety net.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="border border-[#FFE19C] rounded-2xl bg-white/80 p-6 shadow-sm">
-              <h3 class="text-base font-semibold text-slate-900 mb-3">Professional implementation note</h3>
-              <ol class="list-decimal list-inside text-sm text-slate-600 space-y-2">
-                <li><strong>Set a baseline:</strong> First run to see your starting score (often 40–60%).</li>
-                <li><strong>Target critical paths:</strong> Use <code class="inline-code">mutate</code> to focus on business-critical modules.</li>
-                <li><strong>Enforce in CI:</strong> Configure <code class="inline-code">thresholds.break</code> in <code class="inline-code">stryker.config.json</code>.</li>
-              </ol>
-            </div>
-          </div>
+        <div class="git-body">
+          <h4>Engineering Manager <span class="git-ref ref-origin">origin</span></h4>
+          <div class="git-meta">Bigbasket <span class="git-period">· 2020 – 2025</span></div>
+          <p>Led engineering teams across multiple product verticals. Drove platform modernisation, scaled the organisation through rapid growth, and embedded AI tooling into the engineering workflow.</p>
         </div>
       </div>
-    </section>
-
-
-    <!-- ── Resources ────────────────────────────────────────────── -->
-    <section id="resources" class="py-24 bg-[#FFFFE3]">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="reveal mb-10">
-          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Resources</p>
-          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Curated reading &amp; learning</h2>
-          <p class="text-slate-500 text-sm">Hand-picked links across the topics I work with daily — kept live and up to date.</p>
+      <div class="git-item">
+        <div class="git-hash">c8a3f10</div>
+        <div class="git-graph-col">
+          <div class="git-circle" style="color:var(--green);background:var(--green)"></div>
+          <div class="git-line" style="background:var(--green)"></div>
         </div>
-
-        <!-- Tab buttons -->
-        <div class="reveal mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Resource categories">
-          <button data-tab="software" role="tab" aria-selected="true"  aria-controls="tab-software" class="res-tab res-tab-active  px-4 py-2 rounded-full text-sm font-medium transition-colors">Software</button>
-          <button data-tab="ai"       role="tab" aria-selected="false" aria-controls="tab-ai"       class="res-tab res-tab-inactive px-4 py-2 rounded-full text-sm font-medium transition-colors">AI &amp; LLMs</button>
-          <button data-tab="js"       role="tab" aria-selected="false" aria-controls="tab-js"       class="res-tab res-tab-inactive px-4 py-2 rounded-full text-sm font-medium transition-colors">JavaScript</button>
-          <button data-tab="java"     role="tab" aria-selected="false" aria-controls="tab-java"     class="res-tab res-tab-inactive px-4 py-2 rounded-full text-sm font-medium transition-colors">Java</button>
-        </div>
-
-        <!-- Software tab -->
-        <div id="tab-software" role="tabpanel" class="res-panel reveal">
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <a href="https://roadmap.sh" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Roadmaps</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">roadmap.sh</h3>
-                <p class="res-card-desc">Community-curated, continuously updated developer roadmaps for every role — frontend, backend, DevOps, AI engineering, and more.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://www.infoq.com" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">News</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">InfoQ</h3>
-                <p class="res-card-desc">In-depth articles, interviews, and conference talks on software architecture, engineering culture, and emerging trends.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://martinfowler.com" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Blog</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Martin Fowler</h3>
-                <p class="res-card-desc">Authoritative essays on software design, agile methods, refactoring, microservices, and enterprise architecture patterns.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://newsletter.pragmaticengineer.com" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Newsletter</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">The Pragmatic Engineer</h3>
-                <p class="res-card-desc">Gergely Orosz's weekly deep-dives on engineering culture, big-tech internals, and the craft of senior engineering.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">GitHub</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">System Design Primer</h3>
-                <p class="res-card-desc">One of the most starred GitHub repos — comprehensive, visual guide to designing scalable distributed systems.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://www.index.dev/blog/20-best-software-engineering-blogs" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Curated</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Top Engineering Blogs</h3>
-                <p class="res-card-desc">Curated list of the 20 best software engineering blogs — Google, Netflix, Stripe, Cloudflare, and more.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-          </div>
-        </div>
-
-        <!-- AI tab -->
-        <div id="tab-ai" role="tabpanel" class="res-panel reveal hidden">
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <a href="https://platform.openai.com/docs" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Docs</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">OpenAI Platform Docs</h3>
-                <p class="res-card-desc">Official API reference and guides for GPT-4o, o3, and the Assistants &amp; Agents SDK — from completions to function calling.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://docs.anthropic.com" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Docs</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Anthropic (Claude) Docs</h3>
-                <p class="res-card-desc">Full reference for the Claude model family, Model Context Protocol (MCP), tool use, and responsible AI guidelines.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Platform</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Hugging Face</h3>
-                <p class="res-card-desc">The home of open-source AI — thousands of models, datasets, and Spaces for running demos. Essential for ML practitioners.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://github.com/Shubhamsaboo/awesome-llm-apps" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">GitHub</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Awesome LLM Apps</h3>
-                <p class="res-card-desc">Curated collection of production-ready LLM app patterns — RAG, voice agents, multi-agent systems, and more using OpenAI, Claude &amp; Gemini.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://paperswithcode.com" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Research</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Papers With Code</h3>
-                <p class="res-card-desc">Latest ML research papers linked directly to their open-source implementations. Track state-of-the-art benchmarks in real time.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://devblogs.microsoft.com/java/the-state-of-coding-the-future-with-java-and-ai/" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Report</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Java &amp; AI State 2025</h3>
-                <p class="res-card-desc">Microsoft's in-depth survey on how Java developers are adopting AI — Spring AI, LangChain4j, RAG, and MCP in enterprise settings.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-          </div>
-        </div>
-
-        <!-- JavaScript tab -->
-        <div id="tab-js" role="tabpanel" class="res-panel reveal hidden">
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Reference</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">MDN JavaScript</h3>
-                <p class="res-card-desc">The gold standard for JavaScript fundamentals, ES2025 features, Web APIs, and browser compatibility. Always accurate and up to date.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://javascript.info" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Tutorial</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">The Modern JavaScript Tutorial</h3>
-                <p class="res-card-desc">Comprehensive, free, and beautifully written guide covering the core language, browser APIs, and advanced patterns with interactive tasks.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://react.dev" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Docs</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">React Official Docs</h3>
-                <p class="res-card-desc">The new react.dev docs — interactive examples, the Thinking in React mental model, and full coverage of hooks and server components.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Docs</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Next.js Docs</h3>
-                <p class="res-card-desc">Complete reference for Next.js App Router, server &amp; client components, data fetching patterns, ISR, and deployment — updated for v15.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://nodejs.org/en/docs" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Docs</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Node.js Documentation</h3>
-                <p class="res-card-desc">Official Node.js API reference plus the guides section covering streams, events, modules, and building performant server-side JavaScript.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://github.com/ryanmcdermott/clean-code-javascript" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">GitHub</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Clean Code JavaScript</h3>
-                <p class="res-card-desc">Robert C. Martin's clean code principles adapted for JavaScript — practical, opinionated, and widely referenced by engineering teams.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-          </div>
-        </div>
-
-        <!-- Java tab -->
-        <div id="tab-java" role="tabpanel" class="res-panel reveal hidden">
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <a href="https://docs.spring.io/spring-boot/documentation.html" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Docs</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Spring Boot Documentation</h3>
-                <p class="res-card-desc">The authoritative Spring Boot reference — configuration, auto-configuration, production readiness, and the full feature set for each release.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://www.baeldung.com/spring-boot" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Tutorial</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Baeldung Spring Boot</h3>
-                <p class="res-card-desc">The largest collection of Spring Boot tutorials on the web — from basics to advanced testing, security, persistence, and microservices.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://spring.io/guides" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Guides</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Spring Guides</h3>
-                <p class="res-card-desc">Quick, focused 30-minute guides by the Spring team covering REST services, security, data, messaging, cloud, and more.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://docs.oracle.com/en/java/" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Reference</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Oracle Java Docs</h3>
-                <p class="res-card-desc">Official Java SE documentation — language specification, JDK API reference, and release notes for the latest LTS and current releases.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://github.com/spring-projects/spring-boot" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">GitHub</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">Spring Boot Source</h3>
-                <p class="res-card-desc">The official Spring Boot repository — follow release notes, open issues, and contribute. A great way to learn by reading production-grade Java.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-            <a href="https://www.geeksforgeeks.org/advance-java/spring-boot/" target="_blank" rel="noopener noreferrer" class="res-card group">
-              <div class="res-card-inner">
-                <span class="res-badge">Tutorial</span>
-                <h3 class="res-card-title group-hover:text-[#FFA763]">GeeksforGeeks Spring Boot</h3>
-                <p class="res-card-desc">Practical, beginner-friendly Spring Boot tutorials covering REST APIs, database integration, and the core Spring development lifecycle.</p>
-                <span class="res-link">Visit &rarr;</span>
-              </div>
-            </a>
-
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── Contact ───────────────────────────────────────────────── -->
-    <section id="contact" class="py-24 bg-[#D6FAFF]">
-      <div class="max-w-5xl mx-auto px-6">
-        <div class="reveal max-w-xl">
-          <p class="text-[#FFA763] font-medium tracking-widest uppercase text-sm mb-3">Contact</p>
-          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Let's connect</h2>
-          <p class="text-slate-600 leading-relaxed mb-10">
-            Whether you want to chat about engineering leadership, a project, or just say hello —
-            my inbox is always open.
-          </p>
-
-          <div class="flex flex-col sm:flex-row gap-3">
-            <a href="mailto:nikhil.grk@gmail.com"
-               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#FFA763] text-white text-sm font-medium hover:bg-[#e8934a] transition-colors">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              Send me an email
-            </a>
-            <a href="https://github.com/nikhilkesari" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:border-[#FFA763] hover:text-[#FFA763] transition-colors">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-              GitHub
-            </a>
-            <a href="https://linkedin.com/in/nikhilkesari" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium hover:border-[#FFA763] hover:text-[#FFA763] transition-colors">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              LinkedIn
-            </a>
-          </div>
+        <div class="git-body">
+          <h4>Principal Engineer</h4>
+          <div class="git-meta">Bigbasket <span class="git-period">· 2015 – 2020</span></div>
+          <p>Architected core backend systems supporting high-scale grocery commerce. Led distributed systems design, mentored senior engineers, and established engineering best practices across teams.</p>
         </div>
       </div>
-    </section>
+      <div class="git-item">
+        <div class="git-hash">d2f91a4</div>
+        <div class="git-graph-col">
+          <div class="git-circle" style="color:var(--faint);background:var(--faint)"></div>
+        </div>
+        <div class="git-body">
+          <h4>Tech Lead</h4>
+          <div class="git-meta">Manthan Systems <span class="git-period">· 2010 – 2015</span></div>
+          <p>Full-stack development and technical leadership on analytics and retail intelligence products. Grew from individual contributor to leading a team of engineers across product features.</p>
+        </div>
+      </div>
+    </div>
 
-  </main>
+    <div class="gap"></div>
 
-  <!-- ── Footer ────────────────────────────────────────────────── -->
-  <footer class="py-8 bg-[#FFFFE3] border-t border-[#FFE19C]">
-    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-      <span>© <span id="year"></span> Nikhil S Kesari</span>
-      <span>Built with Tailwind CSS · Hosted on GitHub Pages</span>
+    <!-- ══ SKILLS — tree ══ -->
+    <div class="pl-block" id="skills">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio/skills</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
+        </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="pl-cmd">
+          <span class="cmd-arg">/skills </span>
+          <span class="cmd-flag">list</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="out-label">skill &amp; plugins</div>
+    <div class="tree">
+      <div><span class="tree-dir">/skills</span></div>
+      <div><span class="tree-branch">├── </span><span class="tree-dir">leadership/</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">eng-management</span><span class="tree-chip">core</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">team-building</span><span class="tree-chip">core</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">hiring</span><span class="tree-chip">senior</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">mentorship</span><span class="tree-chip">senior</span></div>
+      <div><span class="tree-branch">│   └── </span><span class="tree-file">roadmapping</span></div>
+      <div><span class="tree-branch">├── </span><span class="tree-dir">engineering/</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">nodejs</span><span class="tree-chip">expert</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">system-design</span><span class="tree-chip">expert</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">microservices</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">typescript</span></div>
+      <div><span class="tree-branch">│   └── </span><span class="tree-file">rest-graphql</span></div>
+      <div><span class="tree-branch">├── </span><span class="tree-dir" style="color:var(--copilot)">ai-tooling/</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">llm-integration</span><span class="tree-chip" style="border-color:rgba(217,121,4,0.35);color:var(--copilot)">copilot</span></div>
+      <div><span class="tree-branch">│   ├── </span><span class="tree-file">ai-code-review</span><span class="tree-chip" style="border-color:rgba(217,121,4,0.35);color:var(--copilot)">copilot</span></div>
+      <div><span class="tree-branch">│   └── </span><span class="tree-file">prompt-engineering</span></div>
+      <div><span class="tree-branch">└── </span><span class="tree-dir">web-platform/</span></div>
+      <div><span class="tree-branch">&nbsp;&nbsp;&nbsp; ├── </span><span class="tree-file">react</span></div>
+      <div><span class="tree-branch">&nbsp;&nbsp;&nbsp; ├── </span><span class="tree-file">html-css</span></div>
+      <div><span class="tree-branch">&nbsp;&nbsp;&nbsp; ├── </span><span class="tree-file">ci-cd</span></div>
+      <div><span class="tree-branch">&nbsp;&nbsp;&nbsp; └── </span><span class="tree-file">docker</span></div>
+      <div style="margin-top:6px;color:var(--faint);font-size:0.72rem;">4 directories, 18 files</div>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- ══ PROJECTS — ls -la ══ -->
+    <div style="display:none">
+    <div class="pl-block" id="projects">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio/projects</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
+        </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="pl-cmd">
+          <span class="cmd-name">ls</span>
+          <span class="cmd-flag"> -la</span>
+          <span class="cmd-arg"> projects/</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="out-label">projects &amp; work</div>
+    <div class="ls-header">
+      <span>perms</span>
+      <span>size</span>
+      <span>modified</span>
+      <span>name</span>
+    </div>
+    <div class="ls-row">
+      <span class="ls-perm">drwxr-xr-x</span>
+      <span class="ls-size">4.2 MB</span>
+      <span class="ls-date">Apr 2024</span>
+      <div>
+        <span class="ls-name">ai-code-review/<span>LLM-powered PR review · flags security, perf, anti-patterns</span></span>
+        <span class="ls-tag">AI</span>
+      </div>
+    </div>
+    <div class="ls-row">
+      <span class="ls-perm">drwxr-xr-x</span>
+      <span class="ls-size">1.8 MB</span>
+      <span class="ls-date">Jan 2024</span>
+      <div>
+        <span class="ls-name">onboarding-platform/<span>time-to-first-commit 2w → 3d, self-serve + buddy automation</span></span>
+        <span class="ls-tag">DX</span>
+      </div>
+    </div>
+    <div class="ls-row">
+      <span class="ls-perm">drwxr-xr-x</span>
+      <span class="ls-size">28 MB</span>
+      <span class="ls-date">Dec 2021</span>
+      <div>
+        <span class="ls-name">microservices-migration/<span>200k-line monolith → 14 services · 3× deploy freq</span></span>
+        <span class="ls-tag">Backend</span>
+      </div>
+    </div>
+    <div class="ls-row">
+      <span class="ls-perm">-rw-r--r--</span>
+      <span class="ls-size">48 KB</span>
+      <span class="ls-date">Apr 2026</span>
+      <div>
+        <span class="ls-name">portfolio-site.html<span>Pure HTML/CSS · multiple design themes · no frameworks</span></span>
+        <span class="ls-tag">Web</span>
+      </div>
+    </div>
+    </div><!-- end hidden projects -->
+
+    <div class="gap"></div>
+
+    <!-- ══ WRITING — rss ══ -->
+    <div class="pl-block" id="writing">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
+        </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="pl-cmd">
+          <span class="cmd-name">rss</span>
+          <span class="cmd-flag"> --latest</span>
+          <span class="cmd-arg"> 4 blog/</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="out-label">writing</div>
+    <div class="feed-list">
+      <a href="https://nikhilkesari.medium.com/chakra-ui-and-agile-development-65853f486ada" target="_blank" class="feed-item">
+        <span class="feed-icon">🛠</span>
+        <div style="flex:1">
+          <div class="feed-title">Chakra UI and Agile Development</div>
+          <div class="feed-meta">web-development · Oct 2023</div>
+        </div>
+        <span class="feed-arrow">→</span>
+      </a>
+      <a href="https://nikhilkesari.medium.com/google-puppeteer-and-its-role-in-rendering-pages-for-seo-a-deep-dive-into-dynamic-content-33e70c976f88" target="_blank" class="feed-item">
+        <span class="feed-icon">🤖</span>
+        <div style="flex:1">
+          <div class="feed-title">Google Puppeteer and Its Role in Rendering Pages for SEO: A Deep Dive into Dynamic Content</div>
+          <div class="feed-meta">seo-engineering · Sep 2023</div>
+        </div>
+        <span class="feed-arrow">→</span>
+      </a>
+      <a href="https://nikhilkesari.medium.com/software-symphony-5a6f5afa4756" target="_blank" class="feed-item">
+        <span class="feed-icon">📝</span>
+        <div style="flex:1">
+          <div class="feed-title">Software Symphony</div>
+          <div class="feed-meta">software-engineering · Mar 2021</div>
+        </div>
+        <span class="feed-arrow">→</span>
+      </a>
+      <a href="https://nikhilkesari.medium.com/belief-not-well-understood-6bb7d95a4760" target="_blank" class="feed-item">
+        <span class="feed-icon">💡</span>
+        <div style="flex:1">
+          <div class="feed-title">Belief not well understood.</div>
+          <div class="feed-meta">personal · Sep 2020</div>
+        </div>
+        <span class="feed-arrow">→</span>
+      </a>
+      <a href="https://nikhilkesari.medium.com/let-it-lie-225bce93fee5" target="_blank" class="feed-item">
+        <span class="feed-icon">✍️</span>
+        <div style="flex:1">
+          <div class="feed-title">Let it lie</div>
+          <div class="feed-meta">personal · Jan 2020</div>
+        </div>
+        <span class="feed-arrow">→</span>
+      </a>
+      <a href="https://nikhilkesari.medium.com/itcss-bd18a66d90b4" target="_blank" class="feed-item">
+        <span class="feed-icon">🎨</span>
+        <div style="flex:1">
+          <div class="feed-title">ITCSS</div>
+          <div class="feed-meta">web-development · Dec 2019</div>
+        </div>
+        <span class="feed-arrow">→</span>
+      </a>
+      <a href="https://nikhilkesari.medium.com/in-search-of-software-truth-d2c27025356e" target="_blank" class="feed-item">
+        <span class="feed-icon">🔍</span>
+        <div style="flex:1">
+          <div class="feed-title">In search of software truth</div>
+          <div class="feed-meta">software-engineering · Feb 2019</div>
+        </div>
+        <span class="feed-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- ══ CONNECT ══ -->
+    <div class="pl-block" id="connect">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
+        </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="pl-cmd">
+          <span class="cmd-name">contact</span>
+          <span class="cmd-flag"> --open-to</span>
+          <span class="cmd-arg"> conversations</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="out-label">connect</div>
+    <div class="connect-panel">
+      <div>
+        <div class="connect-label">◆ copilot suggests</div>
+        <h3>Let's connect.</h3>
+        <p>Whether you want to discuss engineering, AI, leadership, or just say hi — my inbox is always open. I respond to LinkedIn messages too.</p>
+      </div>
+      <div class="soc-row">
+        <a href="https://github.com/nikhilkesari" target="_blank" class="soc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.547 1.376.203 2.394.1 2.646.64.698 1.028 1.59 1.028 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/nikhilkesari/" target="_blank" class="soc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://mail.google.com/mail/?view=cm&to=nikhil.grk@gmail.com" target="_blank" class="soc-btn">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          Email
+        </a>
+        <a href="https://x.com/nixnoxiusm" target="_blank" class="soc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 01-1.93.07 4.28 4.28 0 004 2.98 8.521 8.521 0 01-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
+          Twitter/X
+        </a>
+        <a href="https://nikhilkesari.medium.com/" target="_blank" class="soc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+          Medium
+        </a>
+      </div>
+    </div>
+
+    <!-- final prompt -->
+    <div class="gap-sm"></div>
+    <div class="pl-block">
+      <div class="pl-l1">
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="pl-connector">╭─</span>
+          <div class="pl-segs">
+            <div class="pl-seg seg-user">◆ nikhil</div>
+            <div class="pl-seg seg-path"> ~/portfolio</div>
+            <div class="pl-seg seg-git"> main ✓</div>
+          </div>
+        </div>
+        <span class="pl-right pl-clock"></span>
+      </div>
+      <div class="pl-l2">
+        <span class="pl-corner">╰─</span>
+        <span class="pl-symbol">❯</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+
+  </div><!-- /.term -->
+
+  <footer>
+    <span>nikhilskesari.dev · <span id="year"></span></span>
+    <div class="footer-copilot">
+      <div class="footer-gem"><svg width="13" height="11" viewBox="0 0 76 63" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="GitHub Copilot"><path d="M30.0833 36.225C31.8322 36.225 33.25 37.6353 33.25 39.375V45.675C33.25 47.4147 31.8322 48.825 30.0833 48.825C28.3344 48.825 26.9167 47.4147 26.9167 45.675V39.375C26.9167 37.6353 28.3344 36.225 30.0833 36.225Z"/><path d="M49.0833 39.375C49.0833 37.6353 47.6656 36.225 45.9167 36.225C44.1678 36.225 42.75 37.6353 42.75 39.375V45.675C42.75 47.4147 44.1678 48.825 45.9167 48.825C47.6656 48.825 49.0833 47.4147 49.0833 45.675V39.375Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.8017 5.53174C24.5479 2.06952 30.9897 0 38 0C45.0103 0 51.4521 2.06952 56.1983 5.53174C59.0804 7.63415 61.3858 10.2958 62.7518 13.343C64.0304 15.504 64.4254 18.0211 64.3095 20.7434L67.3951 27.8513L67.6766 27.9073C69.846 28.3389 71.769 29.5757 73.055 31.3666L74.9678 34.0304C75.6391 34.9653 76 36.0855 76 37.2345L76 44.8875C76 46.5539 75.0201 47.9954 74.2125 48.9593C73.3244 50.0194 72.1963 51.0187 71.1503 51.8511C70.0904 52.6945 69.041 53.4246 68.2627 53.9407C67.8716 54.2001 67.5443 54.4085 67.3124 54.5535C67.1963 54.6261 67.1039 54.6829 67.0389 54.7226L66.9907 54.7519L66.9626 54.7689L66.942 54.7819C66.9121 54.8007 66.8703 54.8267 66.8171 54.8596C66.7105 54.9252 66.5576 55.0179 66.3607 55.1339C65.967 55.3657 65.3966 55.6907 64.6674 56.0775C63.2101 56.8507 61.1123 57.8744 58.5177 58.8965C53.3435 60.9349 46.1108 63 38 63C29.8892 63 22.6565 60.9349 17.4823 58.8965C14.8877 57.8744 12.7899 56.8507 11.3326 56.0775C10.6034 55.6907 10.033 55.3657 9.63926 55.1339C9.44236 55.0179 9.28951 54.9252 9.18295 54.8596C9.12966 54.8267 9.08793 54.8007 9.05804 54.7819L9.03921 54.77L9.03742 54.7689L9.0078 54.751L8.96105 54.7226C8.89612 54.6829 8.80366 54.6261 8.6876 54.5535C8.45568 54.4085 8.12839 54.2001 7.73729 53.9407C6.95897 53.4246 5.90955 52.6945 4.84969 51.8511C3.80373 51.0187 2.67558 50.0194 1.78746 48.9593C0.979935 47.9954 0 46.5539 0 44.8875L0 37.2345C0 36.0855 0.360889 34.9653 1.03223 34.0304L2.94502 31.3666C4.23097 29.5757 6.15396 28.3389 8.32343 27.9073L8.60491 27.8513L11.6904 20.7435C11.5745 18.021 11.9696 15.5038 13.2483 13.3428C14.6143 10.2957 16.9197 7.6341 19.8017 5.53174ZM12.6667 30.4133L13.4444 28.6216C13.9103 29.5101 14.5001 30.3247 15.2507 31.0357C17.7579 33.4105 21.4546 34.0908 26.266 33.6721C30.7448 33.2823 33.8831 31.4669 35.8431 28.5869C35.9006 28.5025 35.9568 28.4175 36.0118 28.3319C36.6744 28.344 37.3378 28.35 38 28.35C38.6622 28.35 39.3256 28.344 39.9882 28.3319C40.0432 28.4175 40.0994 28.5025 40.1568 28.5869C42.1169 31.4669 45.2551 33.2823 49.7339 33.6721C54.5454 34.0908 58.2421 33.4105 60.7493 31.0357C61.4998 30.3247 62.0897 29.5101 62.5555 28.6216L63.3333 30.4133V51.4169C63.0755 51.5617 62.7743 51.7269 62.4321 51.9084C61.1063 52.6118 59.1715 53.5569 56.7687 54.5035C51.9482 56.4026 45.3267 58.275 38 58.275C30.6733 58.275 24.0518 56.4026 19.2313 54.5035C16.8285 53.5569 14.8937 52.6118 13.5679 51.9084C13.2257 51.7269 12.9245 51.5617 12.6667 51.4169V30.4133ZM31.9097 25.938C31.3604 26.7452 30.6153 27.4657 29.5492 28.0075C28.6004 28.4898 27.3975 28.8305 25.852 28.965C25.5811 28.9886 25.3195 29.0078 25.0667 29.0227C21.2752 29.2464 19.4845 28.5215 18.5263 27.6139C18.4636 27.5544 18.4023 27.4923 18.3424 27.4274C17.9233 26.9728 17.5746 26.3803 17.2911 25.6044C16.9133 24.5703 16.6515 23.2105 16.4938 21.4174C16.2206 18.3103 16.7222 16.3904 17.821 15.0577C18.9634 13.6721 21.1279 12.457 25.2373 11.6493C29.2857 10.8536 31.1935 11.5248 32.1325 12.4223C33.1478 13.3926 33.8356 15.3605 33.6883 18.9877C33.5694 21.916 33.0399 24.2775 31.9097 25.938ZM44.0902 25.938C44.6396 26.7452 45.3847 27.4657 46.4508 28.0075C47.3995 28.4898 48.6025 28.8305 50.1479 28.965C54.4823 29.3423 56.4515 28.5821 57.4737 27.6139C57.9757 27.1384 58.3849 26.4911 58.7088 25.6044C59.0866 24.5703 59.3484 23.2105 59.5061 21.4174C59.7794 18.3103 59.2777 16.3904 58.179 15.0577C57.0365 13.6721 54.872 12.457 50.7627 11.6493C46.7143 10.8536 44.8065 11.5248 43.8674 12.4223C42.8521 13.3926 42.1644 15.3605 42.3117 18.9877C42.4306 21.916 42.9601 24.2775 44.0902 25.938ZM36.752 21.2155C37.5714 21.0117 38.4286 21.0117 39.2481 21.2155L39.2953 21.2272C39.9316 21.3855 40.5763 21.0007 40.7354 20.3677C40.8944 19.7348 40.5076 19.0935 39.8714 18.9353L39.8241 18.9235C38.6265 18.6257 37.3736 18.6257 36.1759 18.9235L36.1287 18.9353C35.4924 19.0935 35.1056 19.7348 35.2646 20.3677C35.4237 21.0007 36.0684 21.3855 36.7047 21.2272L36.752 21.2155Z"/></svg></div>
+      Powered by GitHub Copilot CLI
     </div>
   </footer>
 
-  <script src="assets/main.js"></script>
+</div><!-- /.window -->
+
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function tick() {
+    var now = new Date();
+    var t = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+    document.querySelectorAll('.pl-clock').forEach(function(el) { el.textContent = t; });
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
 </body>
 </html>
