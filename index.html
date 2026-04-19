@@ -778,6 +778,38 @@
       background: rgba(217,121,4,0.12);
       padding: 1px 5px; border-radius: 3px; font-size: 0.68rem;
     }
+
+    /* ── /whoami interactive prompt ── */
+    .ch-prompt-line {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 10px;
+      background: rgba(255,255,255,0.03); border-radius: 5px; margin-bottom: 8px;
+      cursor: text;
+    }
+    .ch-prompt-line:focus-within { outline: 1px solid rgba(217,121,4,0.3); }
+    .ch-prompt-sym, .ch-prompt-cmd { color: var(--copilot); font-weight: 700; font-size: 0.71rem; flex-shrink: 0; }
+    .ch-prompt-input {
+      background: transparent; border: none; outline: none;
+      color: var(--text); font-family: inherit; font-size: 0.71rem;
+      flex: 1; min-width: 0; caret-color: var(--copilot); padding: 0;
+    }
+    .ch-prompt-input::placeholder { color: var(--faint); font-style: italic; }
+    .ch-hint { font-size: 0.67rem; color: var(--faint); opacity: 0.6; margin-bottom: 8px; padding: 2px 10px; }
+    .ch-hint kbd { font-family: inherit; color: var(--muted); background: rgba(255,255,255,0.06); padding: 0 4px; border-radius: 3px; font-size: 0.65rem; }
+
+    /* ── /whoami response output ── */
+    .ch-response {
+      font-size: 0.71rem; color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      border-left: 2px solid var(--copilot);
+      border-radius: 0 4px 4px 0;
+      padding: 10px 12px; margin-bottom: 8px;
+    }
+    .ch-res-grid { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; }
+    .ch-rk { color: var(--copilot); font-size: 0.68rem; }
+    .ch-rv { color: var(--text); font-size: 0.68rem; }
+    .ch-res-pre { font-family: inherit; font-size: 0.67rem; line-height: 1.6; white-space: pre; overflow-x: auto; }
+
     .ch-disc { font-size: 0.67rem; color: var(--faint); opacity: 0.7; }
 
   </style>
@@ -828,10 +860,43 @@
         <span style="color:#ABD948">✓</span> Model: claude-sonnet-4.6 &nbsp;·&nbsp;
         <span style="color:var(--yellow)">⚡</span> Portfolio mode
       </div>
-      <div class="ch-tip">
-        ◆ Tip: <kbd>/whoami</kbd> renders your full identity card instantly.
+      <!-- ── /whoami interactive prompt ── -->
+      <div class="ch-prompt-line" onclick="document.getElementById('whoami-input').focus()">
+        <span class="ch-prompt-sym">◆</span>
+        <span class="ch-prompt-cmd">/whoami</span>
+        <input id="whoami-input" class="ch-prompt-input"
+               placeholder="renders your full identity card instantly"
+               autocomplete="off" spellcheck="false" aria-label="whoami prompt"
+               maxlength="5"
+               onkeydown="if(event.key==='Enter'&&this.value.trim())whoamiSubmit()"
+               oninput="whoamiCursorSync(this)"
+               onfocus="whoamiCursorSync(this)"
+               onblur="whoamiCursorHide()">
       </div>
-      <div class="ch-disc">Copilot uses AI. Check for mistakes.</div>
+      <div class="ch-hint">try typing <kbd>go</kbd> above and hit enter after /whoami to see a prompt at work</div>
+
+      <!-- ── Response area — shown after Enter ── -->
+      <div id="whoami-response-area" style="display:none">
+        <div class="ch-response">
+          <!-- Phase 1: thinking -->
+          <div id="whoami-thinking" style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+            <span id="whoami-spinner" style="font-family:monospace;font-size:0.8rem;color:#a78bfa">⠋</span>
+            <span style="color:#a78bfa;font-size:0.68rem;letter-spacing:0.02em">Thinking…</span>
+          </div>
+          <!-- Phase 2: streaming (shown after thinking) -->
+          <div id="whoami-stream-phase" style="display:none">
+            <div style="font-size:0.68rem;color:var(--faint);margin-bottom:6px">
+              <span style="color:var(--copilot)">⚡</span> Streaming identity…
+            </div>
+            <div id="res-d-stream" class="ch-res-grid"></div>
+          </div>
+          <!-- Phase 3: error (shown for unrecognised commands) -->
+          <div id="whoami-error-phase" style="display:none;font-size:0.68rem;line-height:1.6">
+            <span style="color:#f85149">✗ you ran out of tokens —</span>
+            <span style="color:var(--muted)"> type </span><kbd style="font-family:monospace;color:#a78bfa;background:rgba(167,139,250,0.1);padding:0 4px;border-radius:3px">go</kbd><span style="color:var(--muted)"> and try again</span>
+          </div>
+        </div>
+      </div>
     </div>
 
 
@@ -978,7 +1043,7 @@
         <div class="git-body">
           <h4>Engineering Manager <span class="git-ref ref-head">HEAD → main</span></h4>
           <div class="git-meta"><a href="https://www.phonepe.com/" target="_blank">PhonePe</a> <span class="git-period">· 2025 – Present</span></div>
-          <p>Leading multiple backend engineering squads at scale. Roadmap, hiring, cross-team technical strategy. Introduced AI-assisted code review — cut review cycle time by 40%.</p>
+          <p>Leading multiple frontend engineering squads at scale. Roadmap, hiring, cross-team technical strategy. Introduced AI-assisted code review — cut review cycle time by 40%.</p>
         </div>
       </div>
       <div class="git-item">
@@ -989,7 +1054,7 @@
         </div>
         <div class="git-body">
           <h4>Engineering Manager <span class="git-ref ref-origin">origin</span></h4>
-          <div class="git-meta">Bigbasket <span class="git-period">· 2020 – 2025</span></div>
+          <div class="git-meta"><a href="https://www.bigbasket.com" target="_blank" rel="noopener noreferrer">Bigbasket</a> <span class="git-period">· 2020 – 2025</span></div>
           <p>Led engineering teams across multiple product verticals. Drove platform modernisation, scaled the organisation through rapid growth, and embedded AI tooling into the engineering workflow.</p>
         </div>
       </div>
@@ -1001,7 +1066,7 @@
         </div>
         <div class="git-body">
           <h4>Principal Engineer</h4>
-          <div class="git-meta">Bigbasket <span class="git-period">· 2015 – 2020</span></div>
+          <div class="git-meta"><a href="https://www.bigbasket.com" target="_blank" rel="noopener noreferrer">Bigbasket</a> <span class="git-period">· 2015 – 2020</span></div>
           <p>Architected core backend systems supporting high-scale grocery commerce. Led distributed systems design, mentored senior engineers, and established engineering best practices across teams.</p>
         </div>
       </div>
@@ -1012,7 +1077,7 @@
         </div>
         <div class="git-body">
           <h4>Tech Lead</h4>
-          <div class="git-meta">Manthan Systems <span class="git-period">· 2010 – 2015</span></div>
+          <div class="git-meta"><a href="https://manthan.com/" target="_blank" rel="noopener noreferrer">Manthan Systems</a> <span class="git-period">· 2010 – 2015</span></div>
           <p>Full-stack development and technical leadership on analytics and retail intelligence products. Grew from individual contributor to leading a team of engineers across product features.</p>
         </div>
       </div>
@@ -1330,6 +1395,94 @@
   }
   tick();
   setInterval(tick, 1000);
+</script>
+<script>
+  /* ── /whoami prompt ── */
+  function whoamiCursorSync(el) {
+    el.style.caretColor = 'var(--copilot)';
+  }
+  function whoamiCursorHide() {
+    var el = document.getElementById('whoami-input');
+    if (el) el.style.caretColor = 'var(--copilot)';
+  }
+  function whoamiSubmit() {
+    var input = document.getElementById('whoami-input');
+    var area  = document.getElementById('whoami-response-area');
+    var cmd   = input.value.trim().toLowerCase(); /* capture before clearing */
+    input.value = '';
+    whoamiCursorHide();
+    input.blur();
+
+    /* reset all phases */
+    var dStream     = document.getElementById('res-d-stream');
+    var thinking    = document.getElementById('whoami-thinking');
+    var streamPhase = document.getElementById('whoami-stream-phase');
+    var errorPhase  = document.getElementById('whoami-error-phase');
+    if (dStream)     dStream.innerHTML = '';
+    if (thinking)    { thinking.style.display = 'flex'; thinking.style.opacity = '1'; thinking.style.transition = ''; }
+    if (streamPhase) streamPhase.style.display = 'none';
+    if (errorPhase)  errorPhase.style.display = 'none';
+
+    area.style.opacity    = '0';
+    area.style.transition = 'opacity 0.25s';
+    area.style.display    = 'block';
+    requestAnimationFrame(function () {
+      area.style.opacity = '1';
+
+      /* braille spinner */
+      var spinChars = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+      var spinEl = document.getElementById('whoami-spinner');
+      var si = 0;
+      var spinInterval = setInterval(function () {
+        if (spinEl) { spinEl.textContent = spinChars[si % spinChars.length]; si++; }
+      }, 80);
+
+      /* after 3s: fade out thinking, then branch */
+      setTimeout(function () {
+        clearInterval(spinInterval);
+        if (thinking) {
+          thinking.style.transition = 'opacity 0.3s';
+          thinking.style.opacity = '0';
+          setTimeout(function () {
+            thinking.style.display = 'none';
+            if (cmd === 'go') {
+              if (streamPhase) streamPhase.style.display = 'block';
+              whoamiAnimD();
+            } else {
+              if (errorPhase) errorPhase.style.display = 'block';
+            }
+          }, 300);
+        }
+      }, 3000);
+    });
+  }
+
+  function whoamiAnimD() {
+    var el = document.getElementById('res-d-stream');
+    if (!el) return;
+    var rows = [
+      ['name',    'Nikhil S Kesari',                  'var(--text)'],
+      ['role',    'Engineering Manager',               'var(--text)'],
+      ['company', 'PhonePe',                           'var(--copilot)'],
+      ['location','India',                             'var(--text)'],
+      ['status',  'Open to ideas and conversations',   'var(--blue)'],
+      ['',        '✓ Complete',                        'var(--green)'],
+    ];
+    rows.forEach(function (row, i) {
+      setTimeout(function () {
+        var k = document.createElement('span');
+        k.className = 'ch-rk'; k.textContent = row[0];
+        var v = document.createElement('span');
+        v.className = 'ch-rv'; v.textContent = row[1];
+        v.style.color = row[2];
+        [k, v].forEach(function (n) {
+          n.style.opacity = '0'; n.style.transition = 'opacity 0.2s';
+          el.appendChild(n);
+          requestAnimationFrame(function () { n.style.opacity = '1'; });
+        });
+      }, i * 300);
+    });
+  }
 </script>
 </body>
 </html>
