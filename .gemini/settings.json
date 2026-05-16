@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "ui-sh": {
+      "url": "https://ui.sh/mcp?token=vTpYkWUHHUc4LpYoK1heFC5B5idQfCNJ",
+      "type": "sse"
+    },
+    "uish": {
+      "url": "https://ui.sh/mcp?token=vTpYkWUHHUc4LpYoK1heFC5B5idQfCNJ",
+      "type": "sse"
+    }
+  }
+}
